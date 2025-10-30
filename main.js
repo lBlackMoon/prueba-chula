@@ -1,3 +1,73 @@
+// Cargar productos desde el sistema de administración
+function loadProductsFromSystem() {
+    const savedProducts = localStorage.getItem('tejidosDelightProducts');
+    
+    if (savedProducts) {
+        const products = JSON.parse(savedProducts);
+        updateProductGrids(products);
+    }
+}
+
+// Actualizar las rejillas de productos en cada página
+function updateProductGrids(products) {
+    // Esta función actualizará dinámicamente los productos en cada página
+    // según la categoría
+    
+    // Obtener la página actual
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    
+    if (currentPage === 'index.html') {
+        // Actualizar página de inicio (categorías)
+        updateCategoryPages(products);
+    } else {
+        // Actualizar página de categoría específica
+        const category = currentPage.replace('.html', '');
+        updateCategoryProducts(category, products);
+    }
+}
+
+// Actualizar productos en una categoría específica
+function updateCategoryProducts(category, products) {
+    const categoryProducts = products.filter(p => p.category === category);
+    const productGrid = document.querySelector('.product-grid');
+    
+    if (productGrid && categoryProducts.length > 0) {
+        productGrid.innerHTML = categoryProducts.map(product => `
+            <div class="product-card" data-category="${product.type === 'standard' ? 'estandar' : 'personalizados'}">
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p class="precio">${product.price}</p>
+                <div class="product-actions">
+                    <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                    <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                    <button class="product-action-btn view-btn product-link" 
+                       data-name="${product.name}" 
+                       data-price="${product.price}" 
+                       data-img="${product.image}" 
+                       data-type="${product.type}"
+                       title="Ver detalles">👁</button>
+                </div>
+            </div>
+        `).join('');
+        
+        // Reconfigurar event listeners para los nuevos productos
+        setupProductEventListeners();
+    }
+}
+
+// Luego, en la función init() de main.js, agrega:
+function init() {
+    loadProductsFromSystem(); // <- Agrega esta línea
+    loadCartFromStorage();
+    loadFavoritesFromStorage();
+    updateCartCounter();
+    updateCartDisplay();
+    setupEventListeners();
+    setupPaymentMethods();
+    setupLogoAnimation();
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
     // --- Variables del Modal ---
     const modalOverlay = document.getElementById('modal-overlay');
