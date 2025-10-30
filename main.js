@@ -482,11 +482,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // --- Función para editar producto en el carrito ---
+        // --- Función para editar producto en el carrito ---
     function editCartItem(productName) {
         const itemIndex = cart.findIndex(item => item.name === productName);
         
         if (itemIndex !== -1) {
             const item = cart[itemIndex];
+            
+            // Cerrar el carrito primero
+            toggleCart();
             
             // Buscar el botón de vista correspondiente en la página
             const productCards = document.querySelectorAll('.product-card');
@@ -503,41 +507,43 @@ document.addEventListener("DOMContentLoaded", () => {
                 isEditingCartItem = true;
                 editingCartItemName = productName;
                 
-                // Abrir el modal con el producto
-                viewBtn.click();
-                
-                // Pre-cargar los valores actuales del producto
+                // Abrir el modal con el producto después de un pequeño delay
                 setTimeout(() => {
-                    if (item.size && item.size !== "No especificado") {
-                        if (item.size === "10cm (Estándar)") {
-                            if (radioSize10cm) radioSize10cm.checked = true;
-                        } else {
-                            if (radioSizeCustom) {
-                                radioSizeCustom.checked = true;
-                                if (textSizeCustom) {
-                                    textSizeCustom.value = item.size;
-                                    textSizeCustom.style.display = 'block';
+                    viewBtn.click();
+                    
+                    // Pre-cargar los valores actuales del producto
+                    setTimeout(() => {
+                        if (item.size && item.size !== "No especificado") {
+                            if (item.size === "10cm (Estándar)") {
+                                if (radioSize10cm) radioSize10cm.checked = true;
+                            } else {
+                                if (radioSizeCustom) {
+                                    radioSizeCustom.checked = true;
+                                    if (textSizeCustom) {
+                                        textSizeCustom.value = item.size;
+                                        textSizeCustom.style.display = 'block';
+                                    }
                                 }
                             }
                         }
-                    }
-                    
-                    if (item.packaging && item.packaging !== "No especificado") {
-                        if (modalPackagingSelect) {
-                            modalPackagingSelect.value = item.packaging;
+                        
+                        if (item.packaging && item.packaging !== "No especificado") {
+                            if (modalPackagingSelect) {
+                                modalPackagingSelect.value = item.packaging;
+                            }
                         }
-                    }
-                    
-                    if (item.quantity) {
-                        currentQuantity = item.quantity;
-                        updateQuantityDisplay();
-                    }
-                    
-                    // Actualizar el texto del botón para indicar que estamos editando
-                    if (modalAddToCartBtn) {
-                        modalAddToCartBtn.textContent = '🛒 Actualizar Producto';
-                    }
-                }, 100);
+                        
+                        if (item.quantity) {
+                            currentQuantity = item.quantity;
+                            updateQuantityDisplay();
+                        }
+                        
+                        // Actualizar el texto del botón para indicar que estamos editando
+                        if (modalAddToCartBtn) {
+                            modalAddToCartBtn.textContent = '🛒 Actualizar Producto';
+                        }
+                    }, 100);
+                }, 300); // Pequeño delay para que se cierre el carrito primero
             }
         }
     }
