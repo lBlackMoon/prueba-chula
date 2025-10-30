@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Botones de Acción ---
     const waButton = document.getElementById('modal-wa-btn');
     const igButton = document.getElementById('modal-ig-btn');
+    const modalAddToCartBtn = document.getElementById('modal-add-to-cart'); // MOVIDO AQUÍ
 
     const productLinks = document.querySelectorAll('.product-link');
     
@@ -111,6 +112,28 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (continueShoppingBtn) {
             continueShoppingBtn.addEventListener('click', toggleCart);
+        }
+        
+        // Listeners para validación en tiempo real
+        if (modalSizeCustomInput) {
+            modalSizeCustomInput.addEventListener('input', updateAddToCartButton);
+        }
+        if (textSizeCustom) {
+            textSizeCustom.addEventListener('input', updateAddToCartButton);
+        }
+        if (modalPackagingSelect) {
+            modalPackagingSelect.addEventListener('change', updateAddToCartButton);
+        }
+        if (radioSize10cm) {
+            radioSize10cm.addEventListener('change', updateAddToCartButton);
+        }
+        if (radioSizeCustom) {
+            radioSizeCustom.addEventListener('change', updateAddToCartButton);
+        }
+
+        // Listener para el botón de añadir al carrito en el modal
+        if (modalAddToCartBtn) {
+            modalAddToCartBtn.addEventListener('click', addToCartFromModal);
         }
         
         // Event delegation para botones de favoritos y agregar al carrito
@@ -241,8 +264,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // --- Funcionalidad del carrito ---
-    function addToCart(name, price, img) {
-        const existingItem = cart.find(item => item.name === name);
+    function addToCart(name, price, img, details = '') {
+        const existingItem = cart.find(item => item.name === name && item.details === details);
         
         if (existingItem) {
             existingItem.quantity += 1;
@@ -251,6 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 name,
                 price,
                 img,
+                details,
                 quantity: 1
             });
         }
@@ -309,6 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="${item.img}" alt="${item.name}">
                 <div class="cart-item-details">
                     <div class="cart-item-name">${item.name}</div>
+                    ${item.details ? `<div class="cart-item-details-text">${item.details}</div>` : ''}
                     <div class="cart-item-price">${item.price} x ${item.quantity}</div>
                 </div>
                 <button class="cart-item-remove" data-name="${item.name}">&times;</button>
@@ -345,6 +370,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         cart.forEach(item => {
             message += `• ${item.name} - ${item.price} x ${item.quantity}\n`;
+            if (item.details) {
+                message += `  ${item.details}\n`;
+            }
         });
         
         message += `\nTotal: ${cartTotalElement ? cartTotalElement.textContent : '$0.00'}\n\n`;
@@ -410,27 +438,37 @@ document.addEventListener("DOMContentLoaded", () => {
         modalPrice.textContent = link.dataset.price;
         
         // --- Resetear formularios ---
-        radioSize10cm.checked = true;
-        radioSizeCustom.checked = false;
-        textSizeCustom.value = "";
-        textSizeCustom.style.display = 'none';
-        modalSizeCustomInput.value = "";
-        modalPackagingSelect.value = "";
+        if (radioSize10cm) radioSize10cm.checked = true;
+        if (radioSizeCustom) radioSizeCustom.checked = false;
+        if (textSizeCustom) {
+            textSizeCustom.value = "";
+            textSizeCustom.style.display = 'none';
+        }
+        if (modalSizeCustomInput) modalSizeCustomInput.value = "";
+        if (modalPackagingSelect) modalPackagingSelect.value = "";
+        
+        // Ocultar mensajes de error
+        document.querySelectorAll('.error-message').forEach(error => {
+            error.style.display = 'none';
+        });
         
         // --- Lógica condicional para mostrar/ocultar ---
-        formPackaging.style.display = 'block';
+        if (formPackaging) formPackaging.style.display = 'block';
 
         if (currentProductType === 'custom') {
-            formSizeStandard.style.display = 'none';
-            formSizeCustom.style.display = 'block';
-            instructionsStandard.style.display = 'none';
-            instructionsCustom.style.display = 'block';
+            if (formSizeStandard) formSizeStandard.style.display = 'none';
+            if (formSizeCustom) formSizeCustom.style.display = 'block';
+            if (instructionsStandard) instructionsStandard.style.display = 'none';
+            if (instructionsCustom) instructionsCustom.style.display = 'block';
         } else {
-            formSizeStandard.style.display = 'block';
-            formSizeCustom.style.display = 'none';
-            instructionsStandard.style.display = 'block';
-            instructionsCustom.style.display = 'none';
+            if (formSizeStandard) formSizeStandard.style.display = 'block';
+            if (formSizeCustom) formSizeCustom.style.display = 'none';
+            if (instructionsStandard) instructionsStandard.style.display = 'block';
+            if (instructionsCustom) instructionsCustom.style.display = 'none';
         }
+        
+        // Actualizar estado del botón
+        setTimeout(updateAddToCartButton, 100);
         
         modalOverlay.style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -442,11 +480,110 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function toggleCustomSize() {
-        if (radioSizeCustom.checked) {
-            textSizeCustom.style.display = 'block';
+        if (radioSizeCustom && radioSizeCustom.checked) {
+            if (textSizeCustom) textSizeCustom.style.display = 'block';
         } else {
-            textSizeCustom.style.display = 'none';
-            textSizeCustom.value = "";
+            if (textSizeCustom) {
+                textSizeCustom.style.display = 'none';
+                textSizeCustom.value = "";
+            }
+        }
+        updateAddToCartButton();
+    }
+    
+    // --- Función para validar formulario ---
+    function validateForm() {
+        let isValid = true;
+        
+        // Ocultar mensajes de error anteriores
+        document.querySelectorAll('.error-message').forEach(error => {
+            error.style.display = 'none';
+        });
+        
+        // Validar tamaño
+        if (currentProductType === 'custom') {
+            const customSize = modalSizeCustomInput ? modalSizeCustomInput.value.trim() : '';
+            if (!customSize) {
+                const errorElement = document.getElementById('error-size-custom');
+                if (errorElement) errorElement.style.display = 'block';
+                isValid = false;
+            }
+        } else {
+            const sizeSelected = (radioSize10cm && radioSize10cm.checked) || 
+                               (radioSizeCustom && radioSizeCustom.checked);
+            if (!sizeSelected) {
+                const errorElement = document.getElementById('error-size-standard');
+                if (errorElement) errorElement.style.display = 'block';
+                isValid = false;
+            } else if (radioSizeCustom && radioSizeCustom.checked) {
+                const customSize = textSizeCustom ? textSizeCustom.value.trim() : '';
+                if (!customSize) {
+                    const errorElement = document.getElementById('error-size-custom-text');
+                    if (errorElement) errorElement.style.display = 'block';
+                    isValid = false;
+                }
+            }
+        }
+        
+        // Validar empaque
+        const packaging = modalPackagingSelect ? modalPackagingSelect.value : '';
+        if (!packaging) {
+            const errorElement = document.getElementById('error-packaging');
+            if (errorElement) errorElement.style.display = 'block';
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+
+    // --- Función para añadir al carrito desde el modal ---
+    function addToCartFromModal() {
+        if (!validateForm()) {
+            return; // Detener si la validación falla
+        }
+        
+        const { size, packaging } = getFormData();
+        
+        const productDetails = `
+Tamaño: ${size}
+Empaque: ${packaging}
+        `.trim();
+        
+        addToCart(currentProductName, modalPrice.textContent, modalImg.src, productDetails);
+        
+        // Mostrar confirmación
+        if (modalAddToCartBtn) {
+            const originalText = modalAddToCartBtn.innerHTML;
+            modalAddToCartBtn.innerHTML = '✓ Producto Añadido';
+            modalAddToCartBtn.style.backgroundColor = '#25D366';
+            modalAddToCartBtn.disabled = true;
+            
+            setTimeout(() => {
+                modalAddToCartBtn.innerHTML = originalText;
+                modalAddToCartBtn.style.backgroundColor = '';
+                modalAddToCartBtn.disabled = false;
+            }, 2000);
+        }
+    }
+    
+    // --- Función para actualizar estado del botón ---
+    function updateAddToCartButton() {
+        if (modalAddToCartBtn) {
+            // Habilitar/deshabilitar basado en validación básica
+            const packaging = modalPackagingSelect ? modalPackagingSelect.value : '';
+            let sizeValid = false;
+            
+            if (currentProductType === 'custom') {
+                const customSize = modalSizeCustomInput ? modalSizeCustomInput.value.trim() : '';
+                sizeValid = customSize !== '';
+            } else {
+                const hasStandardSize = radioSize10cm && radioSize10cm.checked;
+                const hasCustomSize = radioSizeCustom && radioSizeCustom.checked && 
+                                    textSizeCustom && textSizeCustom.value.trim() !== '';
+                sizeValid = hasStandardSize || hasCustomSize;
+            }
+            
+            modalAddToCartBtn.disabled = !(sizeValid && packaging);
         }
     }
     
@@ -456,17 +593,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 1. Obtener TAMAÑO
         if (currentProductType === 'custom') {
-            size = modalSizeCustomInput.value || "No especificado";
+            size = modalSizeCustomInput ? modalSizeCustomInput.value.trim() || "No especificado" : "No especificado";
         } else {
-            if (radioSize10cm.checked) {
+            if (radioSize10cm && radioSize10cm.checked) {
                 size = "10cm (Estándar)";
-            } else if (radioSizeCustom.checked) {
-                size = textSizeCustom.value || "Personalizado (No descrito)";
+            } else if (radioSizeCustom && radioSizeCustom.checked) {
+                size = textSizeCustom ? textSizeCustom.value.trim() || "Personalizado (No descrito)" : "Personalizado (No descrito)";
             }
         }
         
         // 2. Obtener EMPAQUE
-        packaging = modalPackagingSelect.value || "No especificado";
+        packaging = modalPackagingSelect ? modalPackagingSelect.value || "No especificado" : "No especificado";
         
         return { size, packaging };
     }

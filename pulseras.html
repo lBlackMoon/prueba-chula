@@ -24,6 +24,8 @@
             <input type="text" id="search-input" placeholder="Buscar pulseras...">
         </div>
         <button class="nav-btn active" data-category="all">Todos</button>
+        <button class="nav-btn" data-category="estandar">Estándar</button>
+        <button class="nav-btn" data-category="personalizados">Personalizados</button>
     </nav>
 
     <main>
@@ -32,7 +34,24 @@
         <section id="pulseras" class="categoria-seccion">
             <h2>Pulseras</h2>
             <div class="product-grid">
-                <div class="product-card" data-category="all">
+                <!-- Nuevo producto añadido -->
+                <div class="product-card" data-category="estandar">
+                    <img src="imagenes/pulsera-basica.jpg" alt="Pulsera Básica">
+                    <h3>Pulsera Básica</h3>
+                    <p class="precio">$4.00</p>
+                    <div class="product-actions">
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
+                           data-name="Pulsera Básica" 
+                           data-price="$4.00" 
+                           data-img="imagenes/pulsera-basica.jpg" 
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-category="personalizados">
                     <img src="imagenes/personalizado.jpg" alt="Pulsera Personalizada">
                     <h3>Pulsera Personalizada</h3>
                     <p class="precio">A cotizar</p>
@@ -103,6 +122,12 @@
                         <option value="Funda transparente">Funda transparente</option>
                     </select>
                 </div>
+                
+                <!-- NUEVO BOTÓN AÑADIDO AL CARRITO EN MODAL -->
+                <button id="modal-add-to-cart" class="modal-add-to-cart">
+                    🛒 Añadir al Carrito
+                </button>
+                
                 <div class="modal-actions">
                     <button id="modal-wa-btn" class="btn-whatsapp">
                         <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" alt="WhatsApp"> 

@@ -24,6 +24,8 @@
             <input type="text" id="search-input" placeholder="Buscar colgantes...">
         </div>
         <button class="nav-btn active" data-category="all">Todos</button>
+        <button class="nav-btn" data-category="estandar">Estándar</button>
+        <button class="nav-btn" data-category="personalizados">Personalizados</button>
     </nav>
 
     <main>
@@ -32,7 +34,40 @@
         <section id="colgantes" class="categoria-seccion">
             <h2>Colgantes</h2>
             <div class="product-grid">
-                <div class="product-card" data-category="all">
+                <!-- Nuevo producto añadido -->
+                <div class="product-card" data-category="estandar">
+                    <img src="imagenes/colgante-corazon.jpg" alt="Colgante Corazón">
+                    <h3>Colgante Corazón</h3>
+                    <p class="precio">$3.50</p>
+                    <div class="product-actions">
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
+                           data-name="Colgante Corazón" 
+                           data-price="$3.50" 
+                           data-img="imagenes/colgante-corazon.jpg" 
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-category="estandar">
+                    <img src="imagenes/colgante-estrella.jpg" alt="Colgante Estrella">
+                    <h3>Colgante Estrella</h3>
+                    <p class="precio">$3.00</p>
+                    <div class="product-actions">
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
+                           data-name="Colgante Estrella" 
+                           data-price="$3.00" 
+                           data-img="imagenes/colgante-estrella.jpg" 
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-category="personalizados">
                     <img src="imagenes/personalizado.jpg" alt="Colgante Personalizado">
                     <h3>Colgante Personalizado</h3>
                     <p class="precio">A cotizar</p>
@@ -89,10 +124,13 @@
                         <label for="size-standard-custom">Personalizado</label>
                     </div>
                     <input type="text" id="size-standard-custom-text" class="input-hidden" placeholder="Escribe el tamaño deseado">
+                    <div id="error-size-standard" class="error-message">Por favor selecciona un tamaño</div>
+                    <div id="error-size-custom-text" class="error-message">Por favor especifica el tamaño personalizado</div>
                 </div>
                 <div id="form-size-custom" class="modal-form-group">
                     <label for="modal-size-custom">Tamaño deseado:</label>
                     <input type="text" id="modal-size-custom" placeholder="Ej: 15cm de alto">
+                    <div id="error-size-custom" class="error-message">Por favor especifica el tamaño deseado</div>
                 </div>
                 <div id="form-packaging" class="modal-form-group">
                     <label for="modal-packaging-select">Tipo de empaque:</label>
@@ -102,7 +140,13 @@
                         <option value="Bolsa de papel">Bolsa de papel</option>
                         <option value="Funda transparente">Funda transparente</option>
                     </select>
+                    <div id="error-packaging" class="error-message">Por favor selecciona un tipo de empaque</div>
                 </div>
+                <!-- BOTÓN AÑADIR AL CARRITO - TAMAÑO COMPLETO -->
+                <button id="modal-add-to-cart" class="modal-add-to-cart" disabled>
+                    🛒 Añadir al Carrito
+                </button>
+                
                 <div class="modal-actions">
                     <button id="modal-wa-btn" class="btn-whatsapp">
                         <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" alt="WhatsApp"> 
@@ -121,7 +165,9 @@
             <div id="instructions-standard" class="modal-instructions">
                 <h3>¿Cómo realizar tu pedido?</h3>
                 <ol>
-                    <li><b>Envíanos un mensaje</b> (con el botón de arriba).</li>
+                    <li><b>Selecciona el tamaño y empaque</b> para tu producto.</li>
+                    <li><b>Añade al carrito</b> con el botón verde.</li>
+                    <li><b>Envíanos un mensaje</b> (con los botones de abajo) para finalizar tu pedido.</li>
                     <li>Se <b>agenda la fecha, hora y lugar</b> para la entrega.</li>
                     <li>Tu orden se empezará a trabajar con la <b>mitad del pago</b>.</li>
                     <li>Recuerda que tu <b>abono no es reembolsable</b>.</li>
@@ -130,8 +176,9 @@
             <div id="instructions-custom" class="modal-instructions">
                 <h3>¿Cómo realizar tu pedido?</h3>
                 <ol>
-                    <li><b>Envíanos un mensaje</b> (con el botón de arriba).</li>
-                    <li><b>Descríbenos y/o envíanos la referencia</b> del modelo que desees.</li>
+                    <li><b>Describe el tamaño deseado</b> y selecciona el empaque.</li>
+                    <li><b>Añade al carrito</b> con el botón verde.</li>
+                    <li><b>Envíanos un mensaje</b> (con los botones de abajo) describiendo tu diseño.</li>
                     <li>Te enviaremos tu <b>cotización</b>.</li>
                     <li>Se <b>agenda la fecha, hora y lugar</b> para la entrega.</li>
                     <li>Tu orden se empezará a trabajar con la <b>mitad del pago</b>.</li>

@@ -1042,3 +1042,125 @@ footer p {
     color: white;
     transform: translateY(-2px);
 }
+
+/* Mejorar el espaciado de la sección de bienvenida */
+.welcome-section {
+    margin-top: 10px;
+    padding: 20px;
+}
+
+/* Botón añadir al carrito en el modal */
+.modal-add-to-cart {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.modal-add-to-cart:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Asegurar que las instrucciones no se salgan del modal */
+.modal-instructions {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Mejorar responsive del modal */
+@media (max-width: 767px) {
+    .modal-instructions {
+        max-height: 150px;
+        font-size: 0.8em;
+    }
+}
+
+/* Botón añadir al carrito en el modal - tamaño completo */
+.modal-add-to-cart {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    width: 100%;
+    font-size: 1.1em;
+}
+
+.modal-add-to-cart:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.modal-add-to-cart:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Mensaje de error para campos requeridos */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Mejorar el espaciado de la sección de bienvenida */
+.welcome-section {
+    margin-top: 10px;
+    padding: 20px 20px 10px 20px;
+}
+
+/* Asegurar que las instrucciones no se salgan del modal */
+.modal-instructions {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.modal-instructions::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-instructions::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.modal-instructions::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+/* Mejorar responsive del modal */
+@media (max-width: 767px) {
+    .modal-instructions {
+        max-height: 150px;
+        font-size: 0.8em;
+    }
+    
+    .modal-add-to-cart {
+        padding: 12px;
+        font-size: 1em;
+    }
+}
