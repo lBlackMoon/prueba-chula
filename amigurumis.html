@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigurumis - Tejidos Delight</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Josefin+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <img src="imagenes/1.png" alt="Catálogo Tejidos Delight" id="logo">
+        <p>Haciendo arte con las manos</p>
+    </header>
+
+    <nav>
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="Buscar amigurumis...">
+        </div>
+        <button class="nav-btn active" data-category="all">Todos</button>
+        <button class="nav-btn" data-category="estandar">Estándar</button>
+        <button class="nav-btn" data-category="personalizados">Personalizados</button>
+    </nav>
+
+    <main>
+        <a href="index.html" class="back-btn">← Volver al Inicio</a>
+        
+        <section id="amigurumis" class="categoria-seccion">
+            <h2>Amigurumis</h2>
+            <div class="product-grid">
+                <div class="product-card" data-category="estandar">
+                    <img src="imagenes/stitch.jpg" alt="Stitch">
+                    <h3>Stitch</h3>
+                    <p class="precio">$5.00</p>
+                    <div class="product-actions">
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
+                           data-name="Stitch" 
+                           data-price="$5.00" 
+                           data-img="imagenes/stitch.jpg" 
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-category="estandar">
+                    <img src="imagenes/snoopy.jpg" alt="Snoopy">
+                    <h3>Snoopy</h3>
+                    <p class="precio">$5.00</p>
+                    <div class="product-actions">
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
+                           data-name="Snoopy" 
+                           data-price="$5.00" 
+                           data-img="imagenes/snoopy.jpg" 
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-category="estandar">
+                    <img src="imagenes/luffy-gato.jpg" alt="Luffy Gato">
+                    <h3>Luffy Gato</h3>
+                    <p class="precio">$4.50</p>
+                    <div class="product-actions">
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
+                           data-name="Luffy Gato" 
+                           data-price="$4.50" 
+                           data-img="imagenes/luffy-gato.jpg" 
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-category="estandar">
+                    <img src="imagenes/luffy.jpg" alt="Luffy">
+                    <h3>Luffy</h3>
+                    <p class="precio">$5.00</p>
+                    <div class="product-actions">
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
+                           data-name="Luffy" 
+                           data-price="$5.00" 
+                           data-img="imagenes/luffy.jpg" 
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-category="personalizados">
+                    <img src="imagenes/personalizado.jpg" alt="Amigurumi Personalizado">
+                    <h3>Amigurumi Personalizado</h3>
+                    <p class="precio">A cotizar</p>
+                    <div class="product-actions">
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
+                           data-name="Amigurumi Personalizado" 
+                           data-price="A cotizar" 
+                           data-img="imagenes/personalizado.jpg" 
+                           data-type="custom"
+                           title="Ver detalles">👁</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-media">
+            <a href="https://www.instagram.com/tejidosdelight?igsh=MW9rd282bmdmdWQydg==" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+                Instagram
+            </a>
+            <a href="https://wa.me/593999406153" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" alt="WhatsApp">
+                WhatsApp
+            </a>
+            <a href="https://www.tiktok.com/@tejidos_delight?_t=8qExjpVChE5&_r=1" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/3046/3046126.png" alt="TikTok">
+                TikTok
+            </a>
+        </div>
+        <p>@tejidosdelight</p>
+    </footer>
+
+    <!-- Modal para detalles del producto -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div id="modal-content" class="modal-content">
+            <button id="modal-close" class="modal-close-btn">&times;</button>
+            <div class="modal-left"><img src="" alt="Producto" id="modal-img"></div>
+            <div class="modal-right">
+                <h2 id="modal-name">Nombre del Producto</h2>
+                <p id="modal-price" class="precio">$0.00</p>
+                <hr>
+                <div id="form-size-standard" class="modal-form-group">
+                    <label>Tamaño:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="size-standard-10" name="size-standard" value="10cm" checked>
+                        <label for="size-standard-10">10cm (Estándar)</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="size-standard-custom" name="size-standard" value="custom">
+                        <label for="size-standard-custom">Personalizado</label>
+                    </div>
+                    <input type="text" id="size-standard-custom-text" class="input-hidden" placeholder="Escribe el tamaño deseado">
+                </div>
+                <div id="form-size-custom" class="modal-form-group">
+                    <label for="modal-size-custom">Tamaño deseado:</label>
+                    <input type="text" id="modal-size-custom" placeholder="Ej: 15cm de alto">
+                </div>
+                <div id="form-packaging" class="modal-form-group">
+                    <label for="modal-packaging-select">Tipo de empaque:</label>
+                    <select id="modal-packaging-select">
+                        <option value="" disabled selected>Selecciona una opción...</option>
+                        <option value="Caja con visor">Caja con visor</option>
+                        <option value="Bolsa de papel">Bolsa de papel</option>
+                        <option value="Funda transparente">Funda transparente</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button id="modal-wa-btn" class="btn-whatsapp">
+                        <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" alt="WhatsApp"> 
+                        Pedir por WhatsApp
+                    </button>
+                    <button id="modal-ig-btn" class="btn-instagram">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> 
+                        Pedir por Instagram
+                    </button>
+                </div>
+                <div class="modal-notes">
+                    <p class="nota-pedido">Recuerda realizar tu pedido con <b>una semana de anticipación</b>.</p>
+                    <p class="nota-pago"><b>Formas de pago:</b> Efectivo, Depósitos y Transferencias.</p>
+                </div>
+            </div>
+            <div id="instructions-standard" class="modal-instructions">
+                <h3>¿Cómo realizar tu pedido?</h3>
+                <ol>
+                    <li><b>Envíanos un mensaje</b> (con el botón de arriba).</li>
+                    <li>Se <b>agenda la fecha, hora y lugar</b> para la entrega.</li>
+                    <li>Tu orden se empezará a trabajar con la <b>mitad del pago</b>.</li>
+                    <li>Recuerda que tu <b>abono no es reembolsable</b>.</li>
+                </ol>
+            </div>
+            <div id="instructions-custom" class="modal-instructions">
+                <h3>¿Cómo realizar tu pedido?</h3>
+                <ol>
+                    <li><b>Envíanos un mensaje</b> (con el botón de arriba).</li>
+                    <li><b>Descríbenos y/o envíanos la referencia</b> del modelo que desees.</li>
+                    <li>Te enviaremos tu <b>cotización</b>.</li>
+                    <li>Se <b>agenda la fecha, hora y lugar</b> para la entrega.</li>
+                    <li>Tu orden se empezará a trabajar con la <b>mitad del pago</b>.</li>
+                    <li>Recuerda que tu <b>abono no es reembolsable</b>.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrito de compras -->
+    <div class="cart-container">
+        <div class="cart-counter">0</div>
+        <div class="cart-icon">🛒</div>
+    </div>
+    
+    <!-- Mensaje de favoritos -->
+    <div class="favorites-message" id="favorites-message"></div>
+    
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button id="close-cart" class="modal-close-btn">&times;</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <!-- Los productos del carrito se insertarán aquí -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <div class="cart-actions">
+                <button id="checkout-btn" class="btn-checkout">Finalizar Pedido</button>
+                <button id="continue-shopping" class="btn-continue">Seguir Comprando</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="overlay" class="overlay"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>
