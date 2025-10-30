@@ -57,6 +57,17 @@ header::before {
     position: relative;
     z-index: 1;
     transition: var(--transition);
+    cursor: pointer;
+}
+
+/* Animación del logo */
+#logo:hover {
+    transform: scale(1.1);
+}
+
+#logo:active {
+    transform: scale(1.15);
+    transition: transform 0.1s ease;
 }
 
 header p {
@@ -860,6 +871,16 @@ footer p {
     font-size: 0.9em;
 }
 
+.cart-item-details {
+    margin-bottom: 6px;
+}
+
+.cart-item-size, .cart-item-packaging {
+    font-size: 0.8em;
+    color: var(--text-light);
+    margin-bottom: 2px;
+}
+
 .cart-item-price {
     color: var(--primary-color);
     font-weight: 600;
@@ -1002,63 +1023,71 @@ footer p {
 
 .welcome-section {
     text-align: center;
-    padding: 15px 15px 10px 15px; /* Reducido el padding superior */
+    padding: 12px 15px 8px 15px; /* Reducido el padding superior */
     background: linear-gradient(135deg, var(--accent-color) 0%, rgba(252, 235, 227, 0.7) 100%);
     border-radius: 15px;
-    margin-bottom: 30px;
-    margin-top: 5px; /* Reducido el margen superior */
+    margin-bottom: 25px;
+    margin-top: 0; /* Eliminado el margen superior */
 }
 
 .welcome-section h2 {
     font-family: 'Dancing Script', cursive;
     color: var(--secondary-color);
-    margin-bottom: 10px; /* Reducido el margen inferior */
-    line-height: 1.2; /* Mejor espaciado entre líneas */
+    margin-bottom: 8px; /* Reducido el margen inferior */
+    line-height: 1.1; /* Mejor espaciado entre líneas */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .welcome-section p {
     max-width: 600px;
     margin: 0 auto;
-    line-height: 1.5;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Ajustes responsivos para móviles */
 @media (max-width: 600px) {
     .welcome-section h2 {
-        font-size: 1.8em; /* Tamaño más adecuado para móviles */
-        margin-bottom: 8px;
+        font-size: 1.7em; /* Tamaño más adecuado para móviles */
+        margin-bottom: 6px;
+        line-height: 1.1;
     }
     
     .welcome-section p {
-        font-size: 0.95em; /* Texto ligeramente más pequeño en móviles */
-        line-height: 1.4;
+        font-size: 0.9em; /* Texto ligeramente más pequeño en móviles */
+        line-height: 1.3;
     }
     
     .welcome-section {
-        padding: 12px 12px 8px 12px; /* Padding más compacto en móviles */
-        margin-bottom: 25px;
+        padding: 10px 12px 6px 12px; /* Padding más compacto en móviles */
+        margin-bottom: 20px;
     }
 }
 
 /* Ajustes para tablets */
 @media (min-width: 601px) and (max-width: 900px) {
     .welcome-section h2 {
-        font-size: 2.2em;
+        font-size: 2em;
+        line-height: 1.1;
     }
     
     .welcome-section p {
-        font-size: 1.05em;
+        font-size: 1em;
     }
 }
 
 /* Ajustes para pantallas grandes */
 @media (min-width: 901px) {
     .welcome-section h2 {
-        font-size: 2.5em;
+        font-size: 2.3em;
+        line-height: 1.1;
     }
     
     .welcome-section p {
-        font-size: 1.1em;
+        font-size: 1.05em;
     }
 }
 
@@ -1237,6 +1266,7 @@ footer p {
     align-items: center;
     gap: 8px;
     margin-top: 5px;
+    flex-wrap: wrap;
 }
 
 .cart-quantity-btn {
@@ -1259,6 +1289,23 @@ footer p {
     padding: 4px;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+.cart-item-edit {
+    background: var(--accent-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-left: 8px;
+}
+
+.cart-item-edit:hover {
+    background: var(--secondary-color);
+    color: white;
 }
 
 /* Mejoras en los mensajes de error */

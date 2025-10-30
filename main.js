@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCartDisplay();
         setupEventListeners();
         setupPaymentMethods();
+        setupLogoAnimation();
     }
     
     // --- Configurar todos los event listeners ---
@@ -164,34 +165,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 toggleFavorite(productName, productPrice, productImg, e.target.closest('.favorite-btn'));
             }
             
-            // Botones de agregar al carrito desde tarjetas
+            // Botones de agregar al carrito desde tarjetas - NUEVO: Abrir modal para seleccionar opciones
             if (e.target.closest('.add-to-cart-btn')) {
                 e.preventDefault();
                 const productCard = e.target.closest('.product-card');
-                const productName = productCard.querySelector('h3').textContent;
-                const productPrice = productCard.querySelector('.precio').textContent;
-                const productImg = productCard.querySelector('img').src;
+                const viewBtn = productCard.querySelector('.view-btn');
                 
-                // Para productos agregados directamente, usar valores por defecto
-                const productDetails = `
-Tamaño: 10cm (Estándar)
-Empaque: No especificado
-                `.trim();
-                
-                addToCart(productName, productPrice, productImg, productDetails);
-                
-                // Animación de confirmación
-                const btn = e.target.closest('.add-to-cart-btn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✓';
-                btn.style.color = 'white';
-                btn.style.backgroundColor = '#25D366';
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.color = '';
-                    btn.style.backgroundColor = '';
-                }, 1500);
+                // Simular clic en el botón de ver detalles para abrir el modal
+                if (viewBtn) {
+                    viewBtn.click();
+                }
             }
             
             // Botones de ver detalles
@@ -219,7 +202,38 @@ Empaque: No especificado
                 const option = e.target.closest('.payment-option');
                 selectPaymentMethod(option.dataset.method);
             }
+            
+            // Botones de editar producto en el carrito
+            if (e.target.closest('.cart-item-edit')) {
+                e.preventDefault();
+                const btn = e.target.closest('.cart-item-edit');
+                const cartItem = btn.closest('.cart-item');
+                const productName = cartItem.querySelector('.cart-item-name').textContent;
+                
+                editCartItem(productName);
+            }
         });
+    }
+
+    // --- Animación del logo ---
+    function setupLogoAnimation() {
+        const logo = document.getElementById('logo');
+        if (logo) {
+            logo.addEventListener('mouseenter', () => {
+                logo.style.transform = 'scale(1.1)';
+            });
+            
+            logo.addEventListener('mouseleave', () => {
+                logo.style.transform = 'scale(1)';
+            });
+            
+            logo.addEventListener('click', () => {
+                logo.style.transform = 'scale(1.15)';
+                setTimeout(() => {
+                    logo.style.transform = 'scale(1)';
+                }, 300);
+            });
+        }
     }
 
     // --- Funciones de cantidad ---
@@ -381,7 +395,7 @@ Empaque: No especificado
     }
     
     // --- Funcionalidad del carrito ---
-    function addToCart(name, price, img, details = '', quantity = 1) {
+    function addToCart(name, price, img, details = '', quantity = 1, size = '', packaging = '') {
         // Buscar si ya existe un producto con el mismo nombre y detalles
         const existingIndex = cart.findIndex(item => 
             item.name === name && item.details === details
@@ -397,7 +411,9 @@ Empaque: No especificado
                 price,
                 img,
                 details,
-                quantity: quantity
+                quantity: quantity,
+                size: size,
+                packaging: packaging
             });
         }
         
@@ -445,6 +461,36 @@ Empaque: No especificado
         updateCheckoutButton();
     }
     
+    // --- Función para editar producto en el carrito ---
+    function editCartItem(productName) {
+        const itemIndex = cart.findIndex(item => item.name === productName);
+        
+        if (itemIndex !== -1) {
+            const item = cart[itemIndex];
+            
+            // Buscar el botón de vista correspondiente en la página
+            const productCards = document.querySelectorAll('.product-card');
+            let viewBtn = null;
+            
+            productCards.forEach(card => {
+                if (card.querySelector('h3').textContent === productName) {
+                    viewBtn = card.querySelector('.view-btn');
+                }
+            });
+            
+            if (viewBtn) {
+                // Abrir el modal con el producto
+                viewBtn.click();
+                
+                // Una vez abierto el modal, podemos pre-cargar los valores si existen
+                setTimeout(() => {
+                    // Aquí podríamos pre-cargar los valores guardados si quisiéramos
+                    // Por ahora simplemente abrimos el modal para que el usuario seleccione
+                }, 100);
+            }
+        }
+    }
+    
     function updateCartCounter() {
         if (cartCounter) {
             const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
@@ -479,12 +525,17 @@ Empaque: No especificado
                 <img src="${item.img}" alt="${item.name}">
                 <div class="cart-item-info">
                     <div class="cart-item-name">${item.name}</div>
-                    ${item.details ? `<div class="cart-item-details-text">${item.details}</div>` : ''}
+                    <div class="cart-item-details">
+                        ${item.size ? `<div class="cart-item-size"><strong>Tamaño:</strong> ${item.size}</div>` : ''}
+                        ${item.packaging ? `<div class="cart-item-packaging"><strong>Empaque:</strong> ${item.packaging}</div>` : ''}
+                        ${item.details ? `<div class="cart-item-details-text">${item.details}</div>` : ''}
+                    </div>
                     <div class="cart-item-price">${item.price} c/u</div>
                     <div class="cart-item-controls">
                         <button class="cart-quantity-btn">-</button>
                         <input type="text" class="cart-quantity-input" value="${item.quantity}" readonly>
                         <button class="cart-quantity-btn">+</button>
+                        <button class="cart-item-edit" data-name="${item.name}">✏️ Editar</button>
                     </div>
                 </div>
                 <button class="cart-item-remove" data-name="${item.name}">&times;</button>
@@ -499,6 +550,13 @@ Empaque: No especificado
         document.querySelectorAll('.cart-item-remove').forEach(btn => {
             btn.addEventListener('click', function() {
                 removeFromCart(this.dataset.name);
+            });
+        });
+        
+        // Agregar event listeners a los botones de editar
+        document.querySelectorAll('.cart-item-edit').forEach(btn => {
+            btn.addEventListener('click', function() {
+                editCartItem(this.dataset.name);
             });
         });
     }
@@ -526,6 +584,12 @@ Empaque: No especificado
         
         cart.forEach(item => {
             message += `• ${item.name} - ${item.price} x ${item.quantity}\n`;
+            if (item.size) {
+                message += `  Tamaño: ${item.size}\n`;
+            }
+            if (item.packaging) {
+                message += `  Empaque: ${item.packaging}\n`;
+            }
             if (item.details && item.details !== 'Tamaño: 10cm (Estándar)\nEmpaque: No especificado') {
                 message += `  ${item.details}\n`;
             }
@@ -759,7 +823,7 @@ Tamaño: ${size}
 Empaque: ${packaging}
         `.trim();
         
-        addToCart(currentProductName, modalPrice.textContent, modalImg.src, productDetails, currentQuantity);
+        addToCart(currentProductName, modalPrice.textContent, modalImg.src, productDetails, currentQuantity, size, packaging);
         
         // Mostrar confirmación
         if (modalAddToCartBtn) {
