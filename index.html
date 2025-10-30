@@ -41,7 +41,7 @@
 
         header {
             text-align: center;
-            padding: 20px;
+            padding: 15px 10px;
             background: linear-gradient(135deg, var(--accent-color) 0%, #f8d7c9 100%);
             color: var(--secondary-color);
             position: relative;
@@ -60,9 +60,9 @@
         }
 
         #logo {
-            max-width: 90px;
+            max-width: 70px;
             height: auto;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -71,13 +71,9 @@
             transition: var(--transition);
         }
 
-        #logo:hover {
-            transform: scale(1.05);
-        }
-
         header p {
             font-family: 'Dancing Script', cursive;
-            font-size: 2em;
+            font-size: 1.6em;
             margin: 0;
             color: var(--secondary-color);
             text-align: center;
@@ -85,13 +81,13 @@
             z-index: 1;
         }
 
-        /* Navegación mejorada con filtros integrados */
+        /* Navegación mejorada con filtros integrados - MÓVIL FIRST */
         nav {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             background-color: var(--white);
-            padding: 10px;
+            padding: 8px 5px;
             border-bottom: 2px solid var(--accent-color);
             position: sticky;
             top: 0;
@@ -105,14 +101,14 @@
             text-decoration: none;
             color: var(--primary-color);
             background-color: var(--light-bg);
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 16px;
             border: 1px solid var(--primary-color);
             transition: var(--transition);
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            font-size: 0.9em;
+            font-size: 0.8em;
             cursor: pointer;
         }
 
@@ -140,18 +136,18 @@
 
         .search-box {
             position: relative;
-            max-width: 300px;
             width: 100%;
-            margin: 10px auto;
+            max-width: 280px;
+            margin: 5px auto;
         }
 
         .search-box input {
             width: 100%;
-            padding: 10px 15px 10px 40px;
+            padding: 8px 12px 8px 35px;
             border: 1px solid #ddd;
-            border-radius: 30px;
+            border-radius: 20px;
             font-family: 'Josefin Sans', sans-serif;
-            font-size: 0.9em;
+            font-size: 0.85em;
             transition: var(--transition);
             background-color: var(--light-bg);
         }
@@ -164,17 +160,18 @@
 
         .search-icon {
             position: absolute;
-            left: 15px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-light);
+            font-size: 0.9em;
         }
 
         /* Contador de carrito mejorado */
         .cart-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 15px;
             z-index: 99;
             cursor: pointer;
             transition: var(--transition);
@@ -184,13 +181,13 @@
             background-color: var(--primary-color);
             color: white;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.8em;
+            font-size: 0.7em;
             position: absolute;
             top: -5px;
             right: -5px;
@@ -201,12 +198,12 @@
             background-color: var(--primary-color);
             color: white;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5em;
+            font-size: 1.3em;
             box-shadow: var(--shadow);
             transition: var(--transition);
         }
@@ -216,39 +213,39 @@
             background-color: var(--primary-dark);
         }
 
-        /* Productos mejorados */
+        /* Productos mejorados - MÓVIL FIRST */
         main {
-            padding: 20px;
+            padding: 15px 10px;
         }
 
         .categoria-seccion {
-            margin-bottom: 40px;
-            scroll-margin-top: 100px;
+            margin-bottom: 30px;
+            scroll-margin-top: 80px;
         }
 
         .categoria-seccion h2 {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.8em;
+            font-size: 2.2em;
             color: var(--secondary-color);
             text-align: center;
             border-bottom: 3px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
         }
 
         .product-card {
             background-color: var(--white);
             border: 1px solid #eee;
-            border-radius: 15px;
+            border-radius: 12px;
             box-shadow: var(--shadow);
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             height: 100%;
             box-sizing: border-box;
             transition: var(--transition);
@@ -267,33 +264,34 @@
         }
 
         .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
         .product-card img {
             width: 100%;
-            height: 160px;
+            height: 130px;
             object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
             transition: var(--transition);
         }
 
         .product-card:hover img {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .product-card h3 {
             font-family: 'Josefin Sans', sans-serif;
             font-weight: 600;
-            font-size: 1.2em;
-            margin: 10px 0 5px 0;
+            font-size: 1em;
+            margin: 8px 0 4px 0;
             color: var(--text-dark);
+            line-height: 1.3;
         }
 
         .product-card .precio {
-            font-size: 1.3em;
+            font-size: 1.1em;
             font-weight: 600;
             color: var(--primary-color);
             margin: 0;
@@ -302,29 +300,41 @@
         .product-actions {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 12px;
         }
 
         .product-action-btn {
             background: none;
             border: none;
-            font-size: 1.2em;
+            font-size: 1.1em;
             cursor: pointer;
             transition: var(--transition);
             color: var(--text-light);
-            padding: 5px;
+            padding: 4px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
 
         .product-action-btn:hover {
             color: var(--primary-color);
-            transform: scale(1.2);
+            background-color: rgba(217, 83, 79, 0.1);
+            transform: scale(1.1);
         }
 
         .favorite-btn.active {
             color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
         }
 
-        /* Modal mejorado */
+        .view-btn {
+            background-color: rgba(93, 64, 55, 0.1);
+        }
+
+        /* Modal mejorado - MÓVIL FIRST */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -337,42 +347,43 @@
             justify-content: center;
             align-items: flex-start;
             overflow-y: auto;
-            padding: 20px 0;
+            padding: 10px 0;
             backdrop-filter: blur(5px);
         }
 
         .modal-content {
             background: var(--white);
-            border-radius: 15px;
+            border-radius: 12px;
             width: 95%;
-            max-width: 800px;
-            padding: 25px;
+            max-width: 500px;
+            padding: 20px;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
             animation: modal-fade-in 0.4s ease;
             display: flex;
             flex-direction: column;
+            margin: 10px;
         }
 
         @keyframes modal-fade-in {
-            from { opacity: 0; transform: translateY(-30px) scale(0.95); }
+            from { opacity: 0; transform: translateY(-20px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .modal-close-btn {
             position: absolute;
-            top: 15px;
-            right: 20px;
+            top: 10px;
+            right: 15px;
             background: #eee;
             border: none;
             border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            font-size: 1.5em;
+            width: 30px;
+            height: 30px;
+            font-size: 1.3em;
             font-weight: bold;
             color: #888;
             cursor: pointer;
-            line-height: 33px;
+            line-height: 28px;
             padding: 0;
             z-index: 10;
             transition: var(--transition);
@@ -386,64 +397,66 @@
 
         .modal-left img#modal-img {
             width: 100%;
-            height: 250px;
+            height: 200px;
             object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .modal-right h2#modal-name {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.5em;
+            font-size: 2em;
             color: var(--secondary-color);
             margin: 0;
             text-align: left;
         }
 
         .modal-right p#modal-price {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: 600;
             color: var(--primary-color);
-            margin: 5px 0 15px 0;
+            margin: 5px 0 12px 0;
             text-align: left;
         }
 
         /* Formularios del modal mejorados */
         .modal-form-group {
             display: none;
-            margin: 15px 0;
+            margin: 12px 0;
         }
 
         .radio-group {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
+            gap: 6px;
+            margin-bottom: 6px;
         }
 
         .radio-group label {
             font-weight: 400;
             margin-bottom: 0;
+            font-size: 0.9em;
         }
 
         .modal-form-group > label {
             font-weight: 600;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--text-dark);
+            font-size: 0.95em;
         }
 
         .modal-form-group input[type="text"],
         .modal-form-group select {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 6px;
             box-sizing: border-box;
-            margin-top: 5px;
+            margin-top: 4px;
             font-family: 'Josefin Sans', sans-serif;
-            font-size: 1em;
+            font-size: 0.9em;
             transition: var(--transition);
             background-color: var(--light-bg);
         }
@@ -457,22 +470,22 @@
 
         .input-hidden {
             display: none;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         /* Botones de acción mejorados */
         .modal-actions {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .modal-actions button {
-            padding: 14px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             border: none;
-            font-size: 1em;
+            font-size: 0.9em;
             font-weight: 600;
             cursor: pointer;
             font-family: 'Josefin Sans', sans-serif;
@@ -480,7 +493,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             position: relative;
             overflow: hidden;
         }
@@ -501,8 +514,8 @@
         }
 
         .modal-actions button img {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             filter: brightness(0) invert(1);
         }
 
@@ -526,10 +539,10 @@
             display: none;
             background: #fdfaf6;
             border: 1px dashed #fcebe3;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            font-size: 0.9em;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 0.85em;
         }
         .modal-instructions h3 {
             font-family: 'Josefin Sans', sans-serif;
@@ -537,48 +550,52 @@
             text-align: center;
             margin-top: 0;
             color: #5d4037;
+            font-size: 1em;
         }
         .modal-instructions ol {
-            padding-left: 20px;
+            padding-left: 18px;
             margin-bottom: 0;
         }
         .modal-instructions li {
-            margin-bottom: 5px;
+            margin-bottom: 4px;
+            font-size: 0.9em;
         }
 
         /* NOTAS DEBAJO DE LOS BOTONES */
         .modal-notes {
-            margin-top: 15px;
-            font-size: 0.9em;
+            margin-top: 12px;
+            font-size: 0.85em;
         }
         .nota-pedido,
         .nota-pago {
             text-align: center;
             background: #fcebe3;
-            padding: 8px;
-            border-radius: 5px;
+            padding: 6px;
+            border-radius: 4px;
+            margin-bottom: 6px;
         }
         .nota-pago {
             background: none;
             font-weight: 600;
-            margin-top: 8px;
+            margin-top: 6px;
             margin-bottom: 0;
         }
 
         /* Footer mejorado */
         footer {
             text-align: center;
-            padding: 30px 20px;
+            padding: 20px 15px;
             background: linear-gradient(135deg, var(--secondary-color) 0%, #3e2723 100%);
             color: var(--white);
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         .social-media {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .social-media a {
@@ -586,30 +603,112 @@
             font-weight: 600;
             text-decoration: none;
             color: var(--white);
-            font-size: 1.2em;
+            font-size: 1em;
             transition: var(--transition);
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 6px 12px;
+            border-radius: 4px;
             background-color: rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .social-media a:hover {
             background-color: rgba(255,255,255,0.2);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
 
         .social-media a img {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             filter: brightness(0) invert(1);
         }
 
         footer p {
             margin: 0;
             opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        /* ================================================== */
+        /* MEDIA QUERY PARA TABLETS (Pantallas de 600px o más) */
+        /* ================================================== */
+        @media (min-width: 600px) {
+            header {
+                padding: 20px 15px;
+            }
+            
+            #logo {
+                max-width: 80px;
+            }
+            
+            header p {
+                font-size: 1.8em;
+            }
+            
+            nav {
+                padding: 10px;
+                gap: 8px;
+            }
+            
+            .nav-btn {
+                padding: 8px 14px;
+                font-size: 0.85em;
+            }
+            
+            .search-box {
+                max-width: 300px;
+                margin: 0 10px;
+            }
+            
+            .search-box input {
+                padding: 10px 15px 10px 40px;
+            }
+            
+            .cart-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4em;
+            }
+            
+            .cart-counter {
+                width: 22px;
+                height: 22px;
+            }
+            
+            main {
+                padding: 20px 15px;
+            }
+            
+            .categoria-seccion h2 {
+                font-size: 2.5em;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 20px;
+            }
+            
+            .product-card {
+                padding: 15px;
+            }
+            
+            .product-card img {
+                height: 150px;
+            }
+            
+            .product-card h3 {
+                font-size: 1.1em;
+            }
+            
+            .modal-content {
+                max-width: 600px;
+                padding: 25px;
+            }
+            
+            .modal-left img#modal-img {
+                height: 250px;
+            }
         }
 
         /* ================================================== */
@@ -622,9 +721,13 @@
                 flex-wrap: nowrap;
             }
 
+            .nav-btn {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+
             .search-box {
                 max-width: 250px;
-                margin: 0 10px;
             }
 
             .modal-content {
@@ -632,7 +735,8 @@
                 grid-template-columns: 40% 1fr;
                 grid-template-rows: auto 1fr;
                 max-height: 90vh;
-                gap: 0 25px;
+                gap: 0 20px;
+                max-width: 700px;
             }
 
             .modal-left {
@@ -658,7 +762,7 @@
 
             .modal-left img#modal-img {
                 margin-bottom: 0;
-                height: 300px;
+                height: 280px;
             }
 
             .modal-actions {
@@ -667,6 +771,24 @@
 
             .modal-actions button {
                 flex: 1;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        /* ================================================== */
+        /* MEDIA QUERY PARA PANTALLAS GRANDES (1024px o más) */
+        /* ================================================== */
+        @media (min-width: 1024px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 25px;
+            }
+            
+            .modal-content {
+                max-width: 800px;
             }
         }
 
@@ -694,9 +816,9 @@
         .cart-sidebar {
             position: fixed;
             top: 0;
-            right: -400px;
+            right: -100%;
             width: 100%;
-            max-width: 400px;
+            max-width: 350px;
             height: 100%;
             background-color: var(--white);
             box-shadow: -5px 0 15px rgba(0,0,0,0.1);
@@ -714,7 +836,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
             border-bottom: 1px solid #eee;
             background-color: var(--accent-color);
         }
@@ -722,22 +844,22 @@
         .cart-items {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 15px;
         }
 
         .cart-item {
             display: flex;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
             border-bottom: 1px solid #eee;
         }
 
         .cart-item img {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             object-fit: cover;
-            border-radius: 8px;
-            margin-right: 15px;
+            border-radius: 6px;
+            margin-right: 12px;
         }
 
         .cart-item-details {
@@ -746,12 +868,14 @@
 
         .cart-item-name {
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
+            font-size: 0.9em;
         }
 
         .cart-item-price {
             color: var(--primary-color);
             font-weight: 600;
+            font-size: 0.9em;
         }
 
         .cart-item-remove {
@@ -760,6 +884,7 @@
             color: var(--text-light);
             cursor: pointer;
             transition: var(--transition);
+            font-size: 1.2em;
         }
 
         .cart-item-remove:hover {
@@ -767,7 +892,7 @@
         }
 
         .cart-footer {
-            padding: 20px;
+            padding: 15px;
             border-top: 1px solid #eee;
         }
 
@@ -775,23 +900,24 @@
             display: flex;
             justify-content: space-between;
             font-weight: 600;
-            font-size: 1.2em;
-            margin-bottom: 15px;
+            font-size: 1.1em;
+            margin-bottom: 12px;
         }
 
         .cart-actions {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .cart-actions button {
-            padding: 12px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 6px;
             border: none;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            font-size: 0.9em;
         }
 
         .btn-checkout {
@@ -826,6 +952,27 @@
         .overlay.active {
             display: block;
         }
+        
+        /* Mensaje de favoritos */
+        .favorites-message {
+            position: fixed;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            box-shadow: var(--shadow);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .favorites-message.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -845,11 +992,7 @@
         <button class="nav-btn" data-category="amigurumis">Amigurumis</button>
         <button class="nav-btn" data-category="flores">Flores</button>
         <button class="nav-btn" data-category="llaveros">Llaveros</button>
-        <button class="nav-btn" data-category="pulseras">Pulseras</button>
-        <button class="nav-btn" data-category="colgantes">Colgantes</button>
-        <button class="nav-btn" data-category="combos">Combos</button>
-        <button class="nav-btn" data-category="bolsas">Bolsas</button>
-        <button class="nav-btn" data-category="macetas">Macetas</button>
+        <button class="nav-btn" data-category="personalizados">Personalizados</button>
     </nav>
 
     <main>
@@ -862,13 +1005,14 @@
                     <h3>Stitch</h3>
                     <p class="precio">$5.00</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Stitch" 
                            data-price="$5.00" 
                            data-img="imagenes/stitch.jpg" 
-                           data-type="standard">👁️</a>
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
@@ -877,13 +1021,14 @@
                     <h3>Snoopy</h3>
                     <p class="precio">$5.00</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Snoopy" 
                            data-price="$5.00" 
                            data-img="imagenes/snoopy.jpg" 
-                           data-type="standard">👁️</a>
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
@@ -892,13 +1037,14 @@
                     <h3>Luffy Gato</h3>
                     <p class="precio">$4.50</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Luffy Gato" 
                            data-price="$4.50" 
                            data-img="imagenes/luffy-gato.jpg" 
-                           data-type="standard">👁️</a>
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
@@ -907,13 +1053,14 @@
                     <h3>Luffy</h3>
                     <p class="precio">$5.00</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Luffy" 
                            data-price="$5.00" 
                            data-img="imagenes/luffy.jpg" 
-                           data-type="standard">👁️</a>
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
@@ -923,13 +1070,14 @@
                     <h3>Ramo de Hello Kitty</h3>
                     <p class="precio">$5.00</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Ramo de Hello Kitty" 
                            data-price="$5.00" 
                            data-img="imagenes/ramo-hello-kitty.jpg" 
-                           data-type="standard">👁️</a>
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
@@ -938,13 +1086,14 @@
                     <h3>Girasol</h3>
                     <p class="precio">$3.00</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Girasol" 
                            data-price="$3.00" 
                            data-img="imagenes/girasol.jpg" 
-                           data-type="standard">👁️</a>
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
@@ -954,13 +1103,14 @@
                     <h3>Totoro</h3>
                     <p class="precio">$3.50</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Totoro" 
                            data-price="$3.50" 
                            data-img="imagenes/totoro.jpg" 
-                           data-type="standard">👁️</a>
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
@@ -969,134 +1119,63 @@
                     <h3>Minidino</h3>
                     <p class="precio">$2.00</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Minidino" 
                            data-price="$2.00" 
                            data-img="imagenes/minidino.jpg" 
-                           data-type="standard">👁️</a>
+                           data-type="standard"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
                 <!-- Productos personalizados -->
-                <div class="product-card" data-category="amigurumis">
+                <div class="product-card" data-category="personalizados">
                     <img src="imagenes/personalizado.jpg" alt="Amigurumi Personalizado">
                     <h3>Amigurumi Personalizado</h3>
                     <p class="precio">A cotizar</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Amigurumi Personalizado" 
                            data-price="A cotizar" 
                            data-img="imagenes/personalizado.jpg" 
-                           data-type="custom">👁️</a>
+                           data-type="custom"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
-                <div class="product-card" data-category="flores">
+                <div class="product-card" data-category="personalizados">
                     <img src="imagenes/personalizado.jpg" alt="Ramo Personalizado">
                     <h3>Ramo Personalizado</h3>
                     <p class="precio">A cotizar</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Ramo Personalizado" 
                            data-price="A cotizar" 
                            data-img="imagenes/personalizado.jpg" 
-                           data-type="custom">👁️</a>
+                           data-type="custom"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
                 
-                <div class="product-card" data-category="llaveros">
+                <div class="product-card" data-category="personalizados">
                     <img src="imagenes/personalizado.jpg" alt="Llavero Personalizado">
                     <h3>Llavero Personalizado</h3>
                     <p class="precio">A cotizar</p>
                     <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
                            data-name="Llavero Personalizado" 
                            data-price="A cotizar" 
                            data-img="imagenes/personalizado.jpg" 
-                           data-type="custom">👁️</a>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-category="pulseras">
-                    <img src="imagenes/personalizado.jpg" alt="Pulsera Personalizada">
-                    <h3>Pulsera Personalizada</h3>
-                    <p class="precio">A cotizar</p>
-                    <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
-                           data-name="Pulsera Personalizada" 
-                           data-price="A cotizar" 
-                           data-img="imagenes/personalizado.jpg" 
-                           data-type="custom">👁️</a>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-category="colgantes">
-                    <img src="imagenes/personalizado.jpg" alt="Colgante Personalizado">
-                    <h3>Colgante Personalizado</h3>
-                    <p class="precio">A cotizar</p>
-                    <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
-                           data-name="Colgante Personalizado" 
-                           data-price="A cotizar" 
-                           data-img="imagenes/personalizado.jpg" 
-                           data-type="custom">👁️</a>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-category="combos">
-                    <img src="imagenes/personalizado.jpg" alt="Combo Personalizado">
-                    <h3>Combo Personalizado</h3>
-                    <p class="precio">A cotizar</p>
-                    <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
-                           data-name="Combo Personalizado" 
-                           data-price="A cotizar" 
-                           data-img="imagenes/personalizado.jpg" 
-                           data-type="custom">👁️</a>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-category="bolsas">
-                    <img src="imagenes/personalizado.jpg" alt="Bolsa Personalizada">
-                    <h3>Bolsa Personalizada</h3>
-                    <p class="precio">A cotizar</p>
-                    <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
-                           data-name="Bolsa Personalizada" 
-                           data-price="A cotizar" 
-                           data-img="imagenes/personalizado.jpg" 
-                           data-type="custom">👁️</a>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-category="macetas">
-                    <img src="imagenes/personalizado.jpg" alt="Maceta Personalizada">
-                    <h3>Maceta Personalizada</h3>
-                    <p class="precio">A cotizar</p>
-                    <div class="product-actions">
-                        <button class="product-action-btn favorite-btn">❤️</button>
-                        <button class="product-action-btn add-to-cart-btn">🛒</button>
-                        <a href="#" class="product-action-btn product-link" 
-                           data-name="Maceta Personalizada" 
-                           data-price="A cotizar" 
-                           data-img="imagenes/personalizado.jpg" 
-                           data-type="custom">👁️</a>
+                           data-type="custom"
+                           title="Ver detalles">👁</button>
                     </div>
                 </div>
             </div>
@@ -1196,6 +1275,9 @@
         <div class="cart-icon">🛒</div>
     </div>
     
+    <!-- Mensaje de favoritos -->
+    <div class="favorites-message" id="favorites-message"></div>
+    
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h3>Tu Carrito</h3>
@@ -1272,6 +1354,7 @@
             const cartTotalElement = document.getElementById('cart-total');
             const checkoutBtn = document.getElementById('checkout-btn');
             const continueShoppingBtn = document.getElementById('continue-shopping');
+            const favoritesMessage = document.getElementById('favorites-message');
             
             // --- Función para inicializar todas las funcionalidades ---
             function init() {
@@ -1365,6 +1448,14 @@
                             btn.style.backgroundColor = '';
                         }, 1500);
                     }
+                    
+                    // Botones de ver detalles
+                    if (e.target.closest('.view-btn')) {
+                        e.preventDefault();
+                        const btn = e.target.closest('.view-btn');
+                        btn.classList.add('product-link');
+                        openModal.call(btn, e);
+                    }
                 });
             }
             
@@ -1424,13 +1515,25 @@
                     // Quitar de favoritos
                     favorites.splice(existingIndex, 1);
                     button.classList.remove('active');
+                    showFavoritesMessage('Producto eliminado de favoritos');
                 } else {
                     // Agregar a favoritos
                     favorites.push({ name, price, img });
                     button.classList.add('active');
+                    showFavoritesMessage('Producto agregado a favoritos');
                 }
                 
                 saveFavoritesToStorage();
+            }
+            
+            // Mostrar mensaje de favoritos
+            function showFavoritesMessage(message) {
+                favoritesMessage.textContent = message;
+                favoritesMessage.classList.add('show');
+                
+                setTimeout(() => {
+                    favoritesMessage.classList.remove('show');
+                }, 2000);
             }
             
             // --- Funcionalidad del carrito ---
