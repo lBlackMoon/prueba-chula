@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentProductName = "";
     let currentProductType = "standard";
     let currentQuantity = 1;
+    let isEditingCartItem = false;
+    let editingCartItemName = "";
     
     // --- Nuevas variables para funcionalidades mejoradas ---
     let cart = [];
@@ -396,25 +398,43 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // --- Funcionalidad del carrito ---
     function addToCart(name, price, img, details = '', quantity = 1, size = '', packaging = '') {
-        // Buscar si ya existe un producto con el mismo nombre y detalles
-        const existingIndex = cart.findIndex(item => 
-            item.name === name && item.details === details
-        );
-        
-        if (existingIndex !== -1) {
-            // Actualizar cantidad si ya existe
-            cart[existingIndex].quantity += quantity;
+        // Si estamos editando, actualizar el producto existente
+        if (isEditingCartItem) {
+            const itemIndex = cart.findIndex(item => item.name === editingCartItemName);
+            if (itemIndex !== -1) {
+                cart[itemIndex].name = name;
+                cart[itemIndex].price = price;
+                cart[itemIndex].img = img;
+                cart[itemIndex].details = details;
+                cart[itemIndex].quantity = quantity;
+                cart[itemIndex].size = size;
+                cart[itemIndex].packaging = packaging;
+                
+                // Resetear estado de edición
+                isEditingCartItem = false;
+                editingCartItemName = "";
+            }
         } else {
-            // Agregar nuevo producto
-            cart.push({
-                name,
-                price,
-                img,
-                details,
-                quantity: quantity,
-                size: size,
-                packaging: packaging
-            });
+            // Buscar si ya existe un producto con el mismo nombre y detalles
+            const existingIndex = cart.findIndex(item => 
+                item.name === name && item.details === details
+            );
+            
+            if (existingIndex !== -1) {
+                // Actualizar cantidad si ya existe
+                cart[existingIndex].quantity += quantity;
+            } else {
+                // Agregar nuevo producto
+                cart.push({
+                    name,
+                    price,
+                    img,
+                    details,
+                    quantity: quantity,
+                    size: size,
+                    packaging: packaging
+                });
+            }
         }
         
         saveCartToStorage();
@@ -479,13 +499,44 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             
             if (viewBtn) {
+                // Configurar estado de edición
+                isEditingCartItem = true;
+                editingCartItemName = productName;
+                
                 // Abrir el modal con el producto
                 viewBtn.click();
                 
-                // Una vez abierto el modal, podemos pre-cargar los valores si existen
+                // Pre-cargar los valores actuales del producto
                 setTimeout(() => {
-                    // Aquí podríamos pre-cargar los valores guardados si quisiéramos
-                    // Por ahora simplemente abrimos el modal para que el usuario seleccione
+                    if (item.size && item.size !== "No especificado") {
+                        if (item.size === "10cm (Estándar)") {
+                            if (radioSize10cm) radioSize10cm.checked = true;
+                        } else {
+                            if (radioSizeCustom) {
+                                radioSizeCustom.checked = true;
+                                if (textSizeCustom) {
+                                    textSizeCustom.value = item.size;
+                                    textSizeCustom.style.display = 'block';
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (item.packaging && item.packaging !== "No especificado") {
+                        if (modalPackagingSelect) {
+                            modalPackagingSelect.value = item.packaging;
+                        }
+                    }
+                    
+                    if (item.quantity) {
+                        currentQuantity = item.quantity;
+                        updateQuantityDisplay();
+                    }
+                    
+                    // Actualizar el texto del botón para indicar que estamos editando
+                    if (modalAddToCartBtn) {
+                        modalAddToCartBtn.textContent = '🛒 Actualizar Producto';
+                    }
                 }, 100);
             }
         }
@@ -521,14 +572,21 @@ document.addEventListener("DOMContentLoaded", () => {
             const itemTotal = priceValue * item.quantity;
             total += itemTotal;
             
+            // Crear descripción unificada
+            let description = '';
+            if (item.size && item.size !== "No especificado") {
+                description += `<div class="cart-item-detail"><strong>Tamaño:</strong> ${item.size}</div>`;
+            }
+            if (item.packaging && item.packaging !== "No especificado") {
+                description += `<div class="cart-item-detail"><strong>Empaque:</strong> ${item.packaging}</div>`;
+            }
+            
             itemElement.innerHTML = `
                 <img src="${item.img}" alt="${item.name}">
                 <div class="cart-item-info">
                     <div class="cart-item-name">${item.name}</div>
                     <div class="cart-item-details">
-                        ${item.size ? `<div class="cart-item-size"><strong>Tamaño:</strong> ${item.size}</div>` : ''}
-                        ${item.packaging ? `<div class="cart-item-packaging"><strong>Empaque:</strong> ${item.packaging}</div>` : ''}
-                        ${item.details ? `<div class="cart-item-details-text">${item.details}</div>` : ''}
+                        ${description}
                     </div>
                     <div class="cart-item-price">${item.price} c/u</div>
                     <div class="cart-item-controls">
@@ -584,14 +642,11 @@ document.addEventListener("DOMContentLoaded", () => {
         
         cart.forEach(item => {
             message += `• ${item.name} - ${item.price} x ${item.quantity}\n`;
-            if (item.size) {
+            if (item.size && item.size !== "No especificado") {
                 message += `  Tamaño: ${item.size}\n`;
             }
-            if (item.packaging) {
+            if (item.packaging && item.packaging !== "No especificado") {
                 message += `  Empaque: ${item.packaging}\n`;
-            }
-            if (item.details && item.details !== 'Tamaño: 10cm (Estándar)\nEmpaque: No especificado') {
-                message += `  ${item.details}\n`;
             }
         });
         
@@ -715,6 +770,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (instructionsCustom) instructionsCustom.style.display = 'none';
         }
         
+        // Si no estamos editando, resetear el texto del botón
+        if (!isEditingCartItem && modalAddToCartBtn) {
+            modalAddToCartBtn.textContent = '🛒 Añadir al Carrito';
+        }
+        
         // Actualizar estado del botón
         setTimeout(updateAddToCartButton, 100);
         
@@ -725,6 +785,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function closeModal() {
         modalOverlay.style.display = 'none';
         document.body.style.overflow = '';
+        
+        // Resetear estado de edición al cerrar el modal
+        isEditingCartItem = false;
+        editingCartItemName = "";
     }
 
     function toggleCustomSize() {
@@ -828,7 +892,8 @@ Empaque: ${packaging}
         // Mostrar confirmación
         if (modalAddToCartBtn) {
             const originalText = modalAddToCartBtn.innerHTML;
-            modalAddToCartBtn.innerHTML = '✓ Producto Añadido';
+            const successText = isEditingCartItem ? '✓ Producto Actualizado' : '✓ Producto Añadido';
+            modalAddToCartBtn.innerHTML = successText;
             modalAddToCartBtn.style.backgroundColor = '#25D366';
             modalAddToCartBtn.disabled = true;
             

@@ -515,12 +515,6 @@ main {
 .modal-actions button img {
     width: 18px;
     height: 18px;
-    filter: brightness(0) invert(1);
-}
-
-.modal-actions button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .btn-whatsapp {
@@ -528,9 +522,17 @@ main {
     color: white;
 }
 
+.btn-whatsapp img {
+    filter: brightness(0) invert(1);
+}
+
 .btn-instagram {
     background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
     color: white;
+}
+
+.btn-instagram img {
+    filter: brightness(0) invert(1);
 }
 
 /* Instrucciones (sección reducida) */
@@ -875,7 +877,7 @@ footer p {
     margin-bottom: 6px;
 }
 
-.cart-item-size, .cart-item-packaging {
+.cart-item-detail {
     font-size: 0.8em;
     color: var(--text-light);
     margin-bottom: 2px;
