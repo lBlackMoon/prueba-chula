@@ -820,6 +820,12 @@ Empaque: ${packaging}
     }
 
     function sendWhatsApp() {
+        // Validar formulario antes de enviar
+        if (!validateForm()) {
+            showFavoritesMessage('Por favor completa todos los campos requeridos');
+            return;
+        }
+        
         const { size, packaging } = getFormData();
         
         const baseMessage = `¡Hola! Me interesa el producto: *${currentProductName}*.\n\n*Tamaño:* ${size}\n*Empaque:* ${packaging}\n\nQuedo atento/a a la cotización. ¡Gracias!`;
@@ -831,6 +837,12 @@ Empaque: ${packaging}
     }
 
     function sendInstagram() {
+        // Validar formulario antes de enviar
+        if (!validateForm()) {
+            showFavoritesMessage('Por favor completa todos los campos requeridos');
+            return;
+        }
+        
         const { size, packaging } = getFormData();
         const message = `¡Hola! Me interesa el producto: ${currentProductName}.\n\nTamaño: ${size}\nEmpaque: ${packaging}\n\nQuedo atento/a a la cotización. ¡Gracias!`;
 

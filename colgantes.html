@@ -34,7 +34,6 @@
         <section id="colgantes" class="categoria-seccion">
             <h2>Colgantes</h2>
             <div class="product-grid">
-                <!-- Nuevo producto añadido -->
                 <div class="product-card" data-category="estandar">
                     <img src="imagenes/colgante-corazon.jpg" alt="Colgante Corazón">
                     <h3>Colgante Corazón</h3>
@@ -46,22 +45,6 @@
                            data-name="Colgante Corazón" 
                            data-price="$3.50" 
                            data-img="imagenes/colgante-corazon.jpg" 
-                           data-type="standard"
-                           title="Ver detalles">👁</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-category="estandar">
-                    <img src="imagenes/colgante-estrella.jpg" alt="Colgante Estrella">
-                    <h3>Colgante Estrella</h3>
-                    <p class="precio">$3.00</p>
-                    <div class="product-actions">
-                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
-                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
-                        <button class="product-action-btn view-btn product-link" 
-                           data-name="Colgante Estrella" 
-                           data-price="$3.00" 
-                           data-img="imagenes/colgante-estrella.jpg" 
                            data-type="standard"
                            title="Ver detalles">👁</button>
                     </div>
@@ -142,6 +125,14 @@
                     </select>
                     <div id="error-packaging" class="error-message">Por favor selecciona un tipo de empaque</div>
                 </div>
+                
+                <div class="quantity-selector">
+                    <label>Cantidad:</label>
+                    <button id="quantity-decrease" class="quantity-btn">-</button>
+                    <input type="number" id="modal-quantity" class="quantity-input" value="1" min="1">
+                    <button id="quantity-increase" class="quantity-btn">+</button>
+                </div>
+                
                 <!-- BOTÓN AÑADIR AL CARRITO - TAMAÑO COMPLETO -->
                 <button id="modal-add-to-cart" class="modal-add-to-cart" disabled>
                     🛒 Añadir al Carrito
@@ -206,12 +197,28 @@
             <!-- Los productos del carrito se insertarán aquí -->
         </div>
         <div class="cart-footer">
+            <div class="payment-method">
+                <label>Contactar por:</label>
+                <div class="payment-options">
+                    <div class="payment-option selected" data-method="whatsapp">
+                        <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" alt="WhatsApp">
+                        <div>WhatsApp</div>
+                    </div>
+                    <div class="payment-option" data-method="instagram">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+                        <div>Instagram</div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="cart-total">
                 <span>Total:</span>
                 <span id="cart-total">$0.00</span>
             </div>
-            <div class="cart-actions">
-                <button id="checkout-btn" class="btn-checkout">Finalizar Pedido</button>
+            <div class="checkout-actions">
+                <button id="checkout-btn" class="btn-checkout btn-checkout-whatsapp">
+                    Finalizar Pedido por WhatsApp
+                </button>
                 <button id="continue-shopping" class="btn-continue">Seguir Comprando</button>
             </div>
         </div>

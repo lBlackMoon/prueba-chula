@@ -34,7 +34,6 @@
         <section id="pulseras" class="categoria-seccion">
             <h2>Pulseras</h2>
             <div class="product-grid">
-                <!-- Nuevo producto añadido -->
                 <div class="product-card" data-category="estandar">
                     <img src="imagenes/pulsera-basica.jpg" alt="Pulsera Básica">
                     <h3>Pulsera Básica</h3>
@@ -108,10 +107,13 @@
                         <label for="size-standard-custom">Personalizado</label>
                     </div>
                     <input type="text" id="size-standard-custom-text" class="input-hidden" placeholder="Escribe el tamaño deseado">
+                    <div id="error-size-standard" class="error-message">Por favor selecciona un tamaño</div>
+                    <div id="error-size-custom-text" class="error-message">Por favor especifica el tamaño personalizado</div>
                 </div>
                 <div id="form-size-custom" class="modal-form-group">
                     <label for="modal-size-custom">Tamaño deseado:</label>
                     <input type="text" id="modal-size-custom" placeholder="Ej: 15cm de alto">
+                    <div id="error-size-custom" class="error-message">Por favor especifica el tamaño deseado</div>
                 </div>
                 <div id="form-packaging" class="modal-form-group">
                     <label for="modal-packaging-select">Tipo de empaque:</label>
@@ -121,10 +123,18 @@
                         <option value="Bolsa de papel">Bolsa de papel</option>
                         <option value="Funda transparente">Funda transparente</option>
                     </select>
+                    <div id="error-packaging" class="error-message">Por favor selecciona un tipo de empaque</div>
                 </div>
                 
-                <!-- NUEVO BOTÓN AÑADIDO AL CARRITO EN MODAL -->
-                <button id="modal-add-to-cart" class="modal-add-to-cart">
+                <div class="quantity-selector">
+                    <label>Cantidad:</label>
+                    <button id="quantity-decrease" class="quantity-btn">-</button>
+                    <input type="number" id="modal-quantity" class="quantity-input" value="1" min="1">
+                    <button id="quantity-increase" class="quantity-btn">+</button>
+                </div>
+                
+                <!-- BOTÓN AÑADIR AL CARRITO - TAMAÑO COMPLETO -->
+                <button id="modal-add-to-cart" class="modal-add-to-cart" disabled>
                     🛒 Añadir al Carrito
                 </button>
                 
@@ -146,7 +156,9 @@
             <div id="instructions-standard" class="modal-instructions">
                 <h3>¿Cómo realizar tu pedido?</h3>
                 <ol>
-                    <li><b>Envíanos un mensaje</b> (con el botón de arriba).</li>
+                    <li><b>Selecciona el tamaño y empaque</b> para tu producto.</li>
+                    <li><b>Añade al carrito</b> con el botón verde.</li>
+                    <li><b>Envíanos un mensaje</b> (con los botones de abajo) para finalizar tu pedido.</li>
                     <li>Se <b>agenda la fecha, hora y lugar</b> para la entrega.</li>
                     <li>Tu orden se empezará a trabajar con la <b>mitad del pago</b>.</li>
                     <li>Recuerda que tu <b>abono no es reembolsable</b>.</li>
@@ -155,8 +167,9 @@
             <div id="instructions-custom" class="modal-instructions">
                 <h3>¿Cómo realizar tu pedido?</h3>
                 <ol>
-                    <li><b>Envíanos un mensaje</b> (con el botón de arriba).</li>
-                    <li><b>Descríbenos y/o envíanos la referencia</b> del modelo que desees.</li>
+                    <li><b>Describe el tamaño deseado</b> y selecciona el empaque.</li>
+                    <li><b>Añade al carrito</b> con el botón verde.</li>
+                    <li><b>Envíanos un mensaje</b> (con los botones de abajo) describiendo tu diseño.</li>
                     <li>Te enviaremos tu <b>cotización</b>.</li>
                     <li>Se <b>agenda la fecha, hora y lugar</b> para la entrega.</li>
                     <li>Tu orden se empezará a trabajar con la <b>mitad del pago</b>.</li>
@@ -184,12 +197,28 @@
             <!-- Los productos del carrito se insertarán aquí -->
         </div>
         <div class="cart-footer">
+            <div class="payment-method">
+                <label>Contactar por:</label>
+                <div class="payment-options">
+                    <div class="payment-option selected" data-method="whatsapp">
+                        <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" alt="WhatsApp">
+                        <div>WhatsApp</div>
+                    </div>
+                    <div class="payment-option" data-method="instagram">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+                        <div>Instagram</div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="cart-total">
                 <span>Total:</span>
                 <span id="cart-total">$0.00</span>
             </div>
-            <div class="cart-actions">
-                <button id="checkout-btn" class="btn-checkout">Finalizar Pedido</button>
+            <div class="checkout-actions">
+                <button id="checkout-btn" class="btn-checkout btn-checkout-whatsapp">
+                    Finalizar Pedido por WhatsApp
+                </button>
                 <button id="continue-shopping" class="btn-continue">Seguir Comprando</button>
             </div>
         </div>
