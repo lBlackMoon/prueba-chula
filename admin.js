@@ -1,11 +1,14 @@
 // Variables globales
 let products = [];
 let editingProductId = null;
+let currentFilter = 'all';
+let currentSort = 'order-asc';
 
 // Inicialización cuando el DOM está listo
 document.addEventListener('DOMContentLoaded', function() {
     loadProducts();
     setupEventListeners();
+    updateCategoryFilter();
 });
 
 // Configurar event listeners
@@ -15,6 +18,47 @@ function setupEventListeners() {
     
     // Vista previa de imagen
     document.getElementById('product-image').addEventListener('change', previewImage);
+    
+    // Filtros y ordenamiento
+    document.getElementById('category-filter').addEventListener('change', function() {
+        currentFilter = this.value;
+        displayProducts();
+    });
+    
+    document.getElementById('sort-products').addEventListener('change', function() {
+        currentSort = this.value;
+        displayProducts();
+    });
+
+    // Configuración de tamaño
+    document.querySelectorAll('input[name="size-type"]').forEach(radio => {
+        radio.addEventListener('change', toggleSizeOptions);
+    });
+
+    // Configuración de empaque
+    document.querySelectorAll('input[name="packaging-type"]').forEach(radio => {
+        radio.addEventListener('change', togglePackagingOptions);
+    });
+}
+
+// Alternar opciones de tamaño
+function toggleSizeOptions() {
+    const customizableOptions = document.getElementById('customizable-size-options');
+    if (this.value === 'customizable') {
+        customizableOptions.classList.remove('hidden');
+    } else {
+        customizableOptions.classList.add('hidden');
+    }
+}
+
+// Alternar opciones de empaque
+function togglePackagingOptions() {
+    const customizableOptions = document.getElementById('customizable-packaging-options');
+    if (this.value === 'customizable') {
+        customizableOptions.classList.remove('hidden');
+    } else {
+        customizableOptions.classList.add('hidden');
+    }
 }
 
 // Cargar productos desde localStorage
@@ -31,6 +75,22 @@ function loadProducts() {
     displayProducts();
 }
 
+// Actualizar filtro de categorías
+function updateCategoryFilter() {
+    const filterSelect = document.getElementById('category-filter');
+    const categories = [...new Set(products.map(p => p.category))];
+    
+    // Mantener la opción "Todas"
+    filterSelect.innerHTML = '<option value="all">Todas las categorías</option>';
+    
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = getCategoryName(category);
+        filterSelect.appendChild(option);
+    });
+}
+
 // Cargar productos predeterminados
 function loadDefaultProducts() {
     products = [
@@ -40,7 +100,17 @@ function loadDefaultProducts() {
             category: 'amigurumis',
             price: '$5.00',
             type: 'standard',
-            image: 'imagenes/stitch.jpg'
+            image: 'imagenes/stitch.jpg',
+            order: 1,
+            sizeConfig: {
+                type: 'fixed',
+                value: '10cm'
+            },
+            packagingConfig: {
+                type: 'customizable',
+                defaultValue: 'Caja con visor',
+                options: ['Caja con visor', 'Bolsa de papel', 'Funda transparente']
+            }
         },
         {
             id: '2',
@@ -48,7 +118,18 @@ function loadDefaultProducts() {
             category: 'amigurumis',
             price: 'A cotizar',
             type: 'custom',
-            image: 'imagenes/personalizado.jpg'
+            image: 'imagenes/personalizado.jpg',
+            order: 2,
+            sizeConfig: {
+                type: 'customizable',
+                defaultValue: '15cm',
+                options: ['10cm', '15cm', '20cm', '25cm']
+            },
+            packagingConfig: {
+                type: 'customizable',
+                defaultValue: 'Caja con visor',
+                options: ['Caja con visor', 'Bolsa de papel', 'Funda transparente']
+            }
         },
         {
             id: '3',
@@ -56,7 +137,16 @@ function loadDefaultProducts() {
             category: 'flores',
             price: '$5.00',
             type: 'standard',
-            image: 'imagenes/ramo-hello-kitty.jpg'
+            image: 'imagenes/ramo-hello-kitty.jpg',
+            order: 1,
+            sizeConfig: {
+                type: 'fixed',
+                value: '25cm'
+            },
+            packagingConfig: {
+                type: 'fixed',
+                value: 'Papel de regalo'
+            }
         },
         {
             id: '4',
@@ -64,103 +154,18 @@ function loadDefaultProducts() {
             category: 'flores',
             price: 'A cotizar',
             type: 'custom',
-            image: 'imagenes/personalizado.jpg'
-        },
-        {
-            id: '5',
-            name: 'Llavero Totoro',
-            category: 'llaveros',
-            price: '$3.50',
-            type: 'standard',
-            image: 'imagenes/totoro.jpg'
-        },
-        {
-            id: '6',
-            name: 'Llavero Personalizado',
-            category: 'llaveros',
-            price: 'A cotizar',
-            type: 'custom',
-            image: 'imagenes/personalizado.jpg'
-        },
-        {
-            id: '7',
-            name: 'Pulsera Básica',
-            category: 'pulseras',
-            price: '$4.00',
-            type: 'standard',
-            image: 'imagenes/pulsera-basica.jpg'
-        },
-        {
-            id: '8',
-            name: 'Pulsera Personalizada',
-            category: 'pulseras',
-            price: 'A cotizar',
-            type: 'custom',
-            image: 'imagenes/personalizado.jpg'
-        },
-        {
-            id: '9',
-            name: 'Colgante Corazón',
-            category: 'colgantes',
-            price: '$3.50',
-            type: 'standard',
-            image: 'imagenes/colgante-corazon.jpg'
-        },
-        {
-            id: '10',
-            name: 'Colgante Personalizado',
-            category: 'colgantes',
-            price: 'A cotizar',
-            type: 'custom',
-            image: 'imagenes/personalizado.jpg'
-        },
-        {
-            id: '11',
-            name: 'Combo Amor',
-            category: 'combos',
-            price: '$12.00',
-            type: 'standard',
-            image: 'imagenes/combo-amor.jpg'
-        },
-        {
-            id: '12',
-            name: 'Combo Personalizado',
-            category: 'combos',
-            price: 'A cotizar',
-            type: 'custom',
-            image: 'imagenes/personalizado.jpg'
-        },
-        {
-            id: '13',
-            name: 'Bolsa Básica',
-            category: 'bolsas',
-            price: '$8.00',
-            type: 'standard',
-            image: 'imagenes/bolsa-basica.jpg'
-        },
-        {
-            id: '14',
-            name: 'Bolsa Personalizada',
-            category: 'bolsas',
-            price: 'A cotizar',
-            type: 'custom',
-            image: 'imagenes/personalizado.jpg'
-        },
-        {
-            id: '15',
-            name: 'Maceta Simple',
-            category: 'macetas',
-            price: '$6.00',
-            type: 'standard',
-            image: 'imagenes/maceta-simple.jpg'
-        },
-        {
-            id: '16',
-            name: 'Maceta Personalizada',
-            category: 'macetas',
-            price: 'A cotizar',
-            type: 'custom',
-            image: 'imagenes/personalizado.jpg'
+            image: 'imagenes/personalizado.jpg',
+            order: 2,
+            sizeConfig: {
+                type: 'customizable',
+                defaultValue: '30cm',
+                options: ['25cm', '30cm', '35cm', '40cm']
+            },
+            packagingConfig: {
+                type: 'customizable',
+                defaultValue: 'Papel de regalo',
+                options: ['Papel de regalo', 'Caja premium', 'Bolsa de tela']
+            }
         }
     ];
     
@@ -170,31 +175,147 @@ function loadDefaultProducts() {
 // Guardar productos en localStorage
 function saveProducts() {
     localStorage.setItem('tejidosDelightProducts', JSON.stringify(products));
+    
+    // Disparar un evento personalizado para notificar a otras páginas
+    if (window.parent !== window) {
+        window.parent.postMessage({ type: 'PRODUCTS_UPDATED', products: products }, '*');
+    }
+    
+    // También guardar en sessionStorage para sincronización inmediata
+    sessionStorage.setItem('productsUpdated', Date.now().toString());
 }
 
 // Mostrar productos en la interfaz
 function displayProducts(filteredProducts = null) {
-    const productsToDisplay = filteredProducts || products;
+    let productsToDisplay = filteredProducts || products;
+    
+    // Aplicar filtro
+    if (currentFilter !== 'all') {
+        productsToDisplay = productsToDisplay.filter(p => p.category === currentFilter);
+    }
+    
+    // Aplicar ordenamiento
+    productsToDisplay = sortProducts(productsToDisplay, currentSort);
+    
     const container = document.getElementById('products-container');
     
     if (productsToDisplay.length === 0) {
-        container.innerHTML = '<p>No hay productos para mostrar.</p>';
+        container.innerHTML = '<p class="no-products">No hay productos para mostrar en esta categoría.</p>';
         return;
     }
     
     container.innerHTML = productsToDisplay.map(product => `
-        <div class="admin-product-card">
-            <img src="${product.image}" alt="${product.name}">
+        <div class="admin-product-card" data-product-id="${product.id}">
+            <img src="${product.image}" alt="${product.name}" onerror="this.src='imagenes/personalizado.jpg'">
             <h3>${product.name}</h3>
             <p><strong>Categoría:</strong> ${getCategoryName(product.category)}</p>
             <p><strong>Precio:</strong> ${product.price}</p>
             <p><strong>Tipo:</strong> ${product.type === 'standard' ? 'Estándar' : 'Personalizado'}</p>
+            <p><strong>Tamaño:</strong> ${getSizeDisplay(product.sizeConfig)}</p>
+            <p><strong>Empaque:</strong> ${getPackagingDisplay(product.packagingConfig)}</p>
+            <p><strong>Orden:</strong> ${product.order || 'No definido'}</p>
             <div class="admin-product-actions">
+                <button class="btn-move-up" onclick="moveProductUp('${product.id}')" ${productsToDisplay.indexOf(product) === 0 ? 'disabled' : ''}>⬆</button>
+                <button class="btn-move-down" onclick="moveProductDown('${product.id}')" ${productsToDisplay.indexOf(product) === productsToDisplay.length - 1 ? 'disabled' : ''}>⬇</button>
                 <button class="btn-edit" onclick="editProduct('${product.id}')">Editar</button>
                 <button class="btn-delete" onclick="deleteProduct('${product.id}')">Eliminar</button>
             </div>
         </div>
     `).join('');
+}
+
+// Obtener display de tamaño
+function getSizeDisplay(sizeConfig) {
+    if (sizeConfig.type === 'fixed') {
+        return `Fijo: ${sizeConfig.value}`;
+    } else {
+        return `Personalizable: ${sizeConfig.defaultValue} (${sizeConfig.options.join(', ')})`;
+    }
+}
+
+// Obtener display de empaque
+function getPackagingDisplay(packagingConfig) {
+    if (packagingConfig.type === 'fixed') {
+        return `Fijo: ${packagingConfig.value}`;
+    } else {
+        return `Personalizable: ${packagingConfig.defaultValue} (${packagingConfig.options.join(', ')})`;
+    }
+}
+
+// Ordenar productos
+function sortProducts(products, sortType) {
+    const sortedProducts = [...products];
+    
+    switch (sortType) {
+        case 'name-asc':
+            return sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+        case 'name-desc':
+            return sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
+        case 'price-asc':
+            return sortedProducts.sort((a, b) => {
+                const priceA = parseFloat(a.price.replace('$', '')) || 0;
+                const priceB = parseFloat(b.price.replace('$', '')) || 0;
+                return priceA - priceB;
+            });
+        case 'price-desc':
+            return sortedProducts.sort((a, b) => {
+                const priceA = parseFloat(a.price.replace('$', '')) || 0;
+                const priceB = parseFloat(b.price.replace('$', '')) || 0;
+                return priceB - priceA;
+            });
+        case 'order-asc':
+            return sortedProducts.sort((a, b) => (a.order || 999) - (b.order || 999));
+        case 'order-desc':
+            return sortedProducts.sort((a, b) => (b.order || 0) - (a.order || 0));
+        case 'category-asc':
+            return sortedProducts.sort((a, b) => a.category.localeCompare(b.category));
+        case 'category-desc':
+            return sortedProducts.sort((a, b) => b.category.localeCompare(a.category));
+        default:
+            return sortedProducts;
+    }
+}
+
+// Mover producto hacia arriba
+function moveProductUp(productId) {
+    const categoryProducts = products.filter(p => 
+        currentFilter === 'all' ? true : p.category === currentFilter
+    );
+    const currentIndex = categoryProducts.findIndex(p => p.id === productId);
+    
+    if (currentIndex > 0) {
+        const product = categoryProducts[currentIndex];
+        const previousProduct = categoryProducts[currentIndex - 1];
+        
+        // Intercambiar órdenes
+        const tempOrder = product.order;
+        product.order = previousProduct.order;
+        previousProduct.order = tempOrder;
+        
+        saveProducts();
+        displayProducts();
+    }
+}
+
+// Mover producto hacia abajo
+function moveProductDown(productId) {
+    const categoryProducts = products.filter(p => 
+        currentFilter === 'all' ? true : p.category === currentFilter
+    );
+    const currentIndex = categoryProducts.findIndex(p => p.id === productId);
+    
+    if (currentIndex < categoryProducts.length - 1) {
+        const product = categoryProducts[currentIndex];
+        const nextProduct = categoryProducts[currentIndex + 1];
+        
+        // Intercambiar órdenes
+        const tempOrder = product.order;
+        product.order = nextProduct.order;
+        nextProduct.order = tempOrder;
+        
+        saveProducts();
+        displayProducts();
+    }
 }
 
 // Obtener nombre legible de la categoría
@@ -238,6 +359,7 @@ function showSection(sectionId) {
     // Si es la sección de productos, actualizar la lista
     if (sectionId === 'products') {
         displayProducts();
+        updateCategoryFilter();
     }
 }
 
@@ -274,6 +396,40 @@ function saveProduct(event) {
     const imageUrl = document.getElementById('product-image-url').value;
     const description = document.getElementById('product-description').value;
     
+    // Obtener configuración de tamaño
+    const sizeType = document.querySelector('input[name="size-type"]:checked').value;
+    let sizeConfig = {};
+    
+    if (sizeType === 'fixed') {
+        sizeConfig = {
+            type: 'fixed',
+            value: document.getElementById('fixed-size').value
+        };
+    } else {
+        sizeConfig = {
+            type: 'customizable',
+            defaultValue: document.getElementById('default-size').value,
+            options: document.getElementById('size-options').value.split(',').map(opt => opt.trim())
+        };
+    }
+    
+    // Obtener configuración de empaque
+    const packagingType = document.querySelector('input[name="packaging-type"]:checked').value;
+    let packagingConfig = {};
+    
+    if (packagingType === 'fixed') {
+        packagingConfig = {
+            type: 'fixed',
+            value: document.getElementById('fixed-packaging').value
+        };
+    } else {
+        packagingConfig = {
+            type: 'customizable',
+            defaultValue: document.getElementById('default-packaging').value,
+            options: document.getElementById('packaging-options').value.split(',').map(opt => opt.trim())
+        };
+    }
+    
     // Validación básica
     if (!name || !category || !price || !type) {
         showAlert('Por favor completa todos los campos obligatorios.', 'error');
@@ -292,13 +448,19 @@ function saveProduct(event) {
                 price,
                 type,
                 image: imageUrl || products[productIndex].image,
-                description: description || products[productIndex].description
+                description: description || products[productIndex].description,
+                sizeConfig,
+                packagingConfig
             };
             
             showAlert('Producto actualizado correctamente.', 'success');
         }
     } else {
-        // Nuevo producto
+        // Nuevo producto - determinar el orden
+        const categoryProducts = products.filter(p => p.category === category);
+        const maxOrder = categoryProducts.length > 0 ? 
+            Math.max(...categoryProducts.map(p => p.order || 0)) : 0;
+        
         const newProduct = {
             id: generateId(),
             name,
@@ -306,7 +468,10 @@ function saveProduct(event) {
             price,
             type,
             image: imageUrl || 'imagenes/personalizado.jpg',
-            description: description || ''
+            description: description || '',
+            order: maxOrder + 1,
+            sizeConfig,
+            packagingConfig
         };
         
         products.push(newProduct);
@@ -335,6 +500,28 @@ function editProduct(id) {
         document.getElementById('product-price').value = product.price;
         document.getElementById('product-type').value = product.type;
         document.getElementById('product-description').value = product.description || '';
+        
+        // Configurar tamaño
+        if (product.sizeConfig.type === 'fixed') {
+            document.querySelector('input[name="size-type"][value="fixed"]').checked = true;
+            document.getElementById('fixed-size').value = product.sizeConfig.value;
+        } else {
+            document.querySelector('input[name="size-type"][value="customizable"]').checked = true;
+            document.getElementById('default-size').value = product.sizeConfig.defaultValue;
+            document.getElementById('size-options').value = product.sizeConfig.options.join(', ');
+        }
+        toggleSizeOptions.call(document.querySelector('input[name="size-type"]:checked'));
+        
+        // Configurar empaque
+        if (product.packagingConfig.type === 'fixed') {
+            document.querySelector('input[name="packaging-type"][value="fixed"]').checked = true;
+            document.getElementById('fixed-packaging').value = product.packagingConfig.value;
+        } else {
+            document.querySelector('input[name="packaging-type"][value="customizable"]').checked = true;
+            document.getElementById('default-packaging').value = product.packagingConfig.defaultValue;
+            document.getElementById('packaging-options').value = product.packagingConfig.options.join(', ');
+        }
+        togglePackagingOptions.call(document.querySelector('input[name="packaging-type"]:checked'));
         
         // Mostrar imagen actual si existe
         const preview = document.getElementById('image-preview');
@@ -373,6 +560,15 @@ function resetForm() {
     document.getElementById('submit-btn').textContent = 'Guardar Producto';
     document.getElementById('cancel-btn').style.display = 'none';
     editingProductId = null;
+    
+    // Restablecer opciones de tamaño y empaque a valores por defecto
+    document.querySelector('input[name="size-type"][value="fixed"]').checked = true;
+    document.getElementById('fixed-size').value = '10cm';
+    toggleSizeOptions.call(document.querySelector('input[name="size-type"]:checked'));
+    
+    document.querySelector('input[name="packaging-type"][value="fixed"]').checked = true;
+    document.getElementById('fixed-packaging').value = 'Caja con visor';
+    togglePackagingOptions.call(document.querySelector('input[name="packaging-type"]:checked'));
 }
 
 // Mostrar alerta

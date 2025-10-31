@@ -1388,3 +1388,56 @@ footer p {
 .btn-whatsapp:disabled:hover, .btn-instagram:disabled:hover {
     transform: none !important;
 }
+
+/* Estilos adicionales para el panel de administración */
+.admin-filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.admin-filter-group label {
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.admin-filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.btn-move-up, .btn-move-down {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.btn-move-up:disabled, .btn-move-down:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.btn-move-up:hover:not(:disabled), .btn-move-down:hover:not(:disabled) {
+    background: #2980b9;
+}
+
+.no-products {
+    text-align: center;
+    color: var(--text-light);
+    font-style: italic;
+    padding: 40px 20px;
+    grid-column: 1 / -1;
+}

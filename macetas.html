@@ -232,5 +232,90 @@
     <div id="overlay" class="overlay"></div>
 
     <script src="main.js"></script>
+
+        // Cargar productos dinámicamente para esta categoría
+    document.addEventListener('DOMContentLoaded', function() {
+        loadCategoryProducts();
+    });
+
+    function loadCategoryProducts() {
+        // Obtener el nombre de la categoría desde la URL o el ID de la sección
+        const categoryMap = {
+            'amigurumis': 'amigurumis',
+            'flores': 'flores', 
+            'llaveros': 'llaveros',
+            'pulseras': 'pulseras',
+            'colgantes': 'colgantes',
+            'combos': 'combos',
+            'bolsas': 'bolsas',
+            'macetas': 'macetas'
+        };
+        
+        // Determinar la categoría actual
+        let currentCategory = '';
+        const path = window.location.pathname;
+        const fileName = path.split('/').pop();
+        
+        if (fileName in categoryMap) {
+            currentCategory = categoryMap[fileName];
+        } else {
+            // Intentar obtener del ID de la sección
+            const section = document.querySelector('.categoria-seccion');
+            if (section && section.id in categoryMap) {
+                currentCategory = section.id;
+            }
+        }
+        
+        if (!currentCategory) return;
+        
+        // Cargar productos desde localStorage
+        const savedProducts = localStorage.getItem('tejidosDelightProducts');
+        
+        if (savedProducts) {
+            const allProducts = JSON.parse(savedProducts);
+            const categoryProducts = allProducts.filter(p => p.category === currentCategory);
+            
+            updateProductGrid(categoryProducts);
+        }
+    }
+
+    function updateProductGrid(products) {
+        const productGrid = document.querySelector('.product-grid');
+        
+        if (!productGrid) return;
+        
+        if (products.length === 0) {
+            productGrid.innerHTML = '<p>No hay productos disponibles en esta categoría.</p>';
+            return;
+        }
+        
+        // Generar HTML para los productos
+        productGrid.innerHTML = products.map(product => `
+            <div class="product-card" data-category="${product.type === 'standard' ? 'estandar' : 'personalizados'}">
+                <img src="${product.image}" alt="${product.name}" onerror="this.src='imagenes/personalizado.jpg'">
+                <h3>${product.name}</h3>
+                <p class="precio">${product.price}</p>
+                <div class="product-actions">
+                    <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                    <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                    <button class="product-action-btn view-btn product-link" 
+                    data-name="${product.name}" 
+                    data-price="${product.price}" 
+                    data-img="${product.image}" 
+                    data-type="${product.type}"
+                    title="Ver detalles">👁</button>
+                </div>
+            </div>
+        `).join('');
+        
+        // Reconfigurar event listeners después de actualizar el DOM
+        setTimeout(() => {
+            if (window.setupProductEventListeners) {
+                window.setupProductEventListeners();
+            }
+        }, 100);
+    }
+    </script>
+    
 </body>
 </html>

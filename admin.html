@@ -104,6 +104,7 @@
             display: flex;
             gap: 10px;
             margin-top: 10px;
+            flex-wrap: wrap;
         }
         
         .btn-edit {
@@ -113,6 +114,7 @@
             padding: 5px 10px;
             border-radius: 3px;
             cursor: pointer;
+            font-size: 0.9em;
         }
         
         .btn-delete {
@@ -122,6 +124,22 @@
             padding: 5px 10px;
             border-radius: 3px;
             cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .btn-move-up, .btn-move-down {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+
+        .btn-move-up:disabled, .btn-move-down:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
         }
         
         .alert {
@@ -176,6 +194,76 @@
             margin-top: 10px;
             display: none;
         }
+
+        .admin-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .admin-filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .admin-filter-group label {
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .admin-filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Josefin Sans', sans-serif;
+            min-width: 150px;
+        }
+
+        .size-options, .packaging-options {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .option-group {
+            margin-bottom: 10px;
+        }
+
+        .option-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .option-inputs {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .option-inputs input {
+            margin-bottom: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .no-products {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px 20px;
+            grid-column: 1 / -1;
+        }
     </style>
 </head>
 <body>
@@ -202,9 +290,34 @@
         <!-- Sección: Ver Productos -->
         <div id="products-section" class="admin-section active">
             <h2>Productos Existentes</h2>
-            <div class="form-group">
-                <input type="text" id="search-products" placeholder="Buscar productos..." onkeyup="filterProducts()">
+            
+            <div class="admin-filters">
+                <div class="admin-filter-group">
+                    <label for="category-filter">Filtrar por categoría:</label>
+                    <select id="category-filter">
+                        <option value="all">Todas las categorías</option>
+                    </select>
+                </div>
+                
+                <div class="admin-filter-group">
+                    <label for="sort-products">Ordenar por:</label>
+                    <select id="sort-products">
+                        <option value="order-asc">Orden (Ascendente)</option>
+                        <option value="order-desc">Orden (Descendente)</option>
+                        <option value="name-asc">Nombre (A-Z)</option>
+                        <option value="name-desc">Nombre (Z-A)</option>
+                        <option value="price-asc">Precio (Menor a Mayor)</option>
+                        <option value="price-desc">Precio (Mayor a Menor)</option>
+                        <option value="category-asc">Categoría (A-Z)</option>
+                    </select>
+                </div>
+
+                <div class="admin-filter-group">
+                    <label for="search-products">Buscar:</label>
+                    <input type="text" id="search-products" placeholder="Buscar productos..." onkeyup="filterProducts()">
+                </div>
             </div>
+            
             <div id="products-container" class="products-grid">
                 <!-- Los productos se cargarán aquí -->
             </div>
@@ -217,12 +330,12 @@
                 <input type="hidden" id="product-id">
                 
                 <div class="form-group">
-                    <label for="product-name">Nombre del Producto</label>
+                    <label for="product-name">Nombre del Producto *</label>
                     <input type="text" id="product-name" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="product-category">Categoría</label>
+                    <label for="product-category">Categoría *</label>
                     <select id="product-category" required>
                         <option value="">Selecciona una categoría</option>
                         <option value="amigurumis">Amigurumis</option>
@@ -237,17 +350,69 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="product-price">Precio</label>
+                    <label for="product-price">Precio *</label>
                     <input type="text" id="product-price" placeholder="Ej: $5.00 o A cotizar" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="product-type">Tipo de Producto</label>
+                    <label for="product-type">Tipo de Producto *</label>
                     <select id="product-type" required>
                         <option value="">Selecciona un tipo</option>
                         <option value="standard">Estándar</option>
                         <option value="custom">Personalizado</option>
                     </select>
+                </div>
+
+                <!-- Opciones de Tamaño -->
+                <div class="size-options">
+                    <h3>Configuración de Tamaño</h3>
+                    
+                    <div class="option-group">
+                        <label>
+                            <input type="radio" name="size-type" value="fixed" checked>
+                            Tamaño fijo (solo un tamaño disponible)
+                        </label>
+                        <div class="option-inputs">
+                            <input type="text" id="fixed-size" placeholder="Ej: 10cm, 15cm, Mediano" value="10cm">
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label>
+                            <input type="radio" name="size-type" value="customizable">
+                            Tamaño personalizable (el cliente puede elegir)
+                        </label>
+                        <div class="option-inputs hidden" id="customizable-size-options">
+                            <input type="text" id="default-size" placeholder="Tamaño por defecto (Ej: 10cm)" value="10cm">
+                            <input type="text" id="size-options" placeholder="Opciones separadas por coma (Ej: 10cm,15cm,20cm)" value="10cm,15cm,20cm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opciones de Empaque -->
+                <div class="packaging-options">
+                    <h3>Configuración de Empaque</h3>
+                    
+                    <div class="option-group">
+                        <label>
+                            <input type="radio" name="packaging-type" value="fixed" checked>
+                            Empaque fijo (solo un tipo disponible)
+                        </label>
+                        <div class="option-inputs">
+                            <input type="text" id="fixed-packaging" placeholder="Ej: Caja con visor, Bolsa de papel" value="Caja con visor">
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label>
+                            <input type="radio" name="packaging-type" value="customizable">
+                            Empaque personalizable (el cliente puede elegir)
+                        </label>
+                        <div class="option-inputs hidden" id="customizable-packaging-options">
+                            <input type="text" id="default-packaging" placeholder="Empaque por defecto" value="Caja con visor">
+                            <input type="text" id="packaging-options" placeholder="Opciones separadas por coma" value="Caja con visor,Bolsa de papel,Funda transparente">
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -262,12 +427,12 @@
                 
                 <div class="form-group">
                     <label for="product-description">Descripción (opcional)</label>
-                    <textarea id="product-description"></textarea>
+                    <textarea id="product-description" placeholder="Descripción adicional del producto..."></textarea>
                 </div>
                 
                 <div class="form-group">
                     <button type="submit" id="submit-btn" class="admin-btn">Guardar Producto</button>
-                    <button type="button" id="cancel-btn" class="admin-btn" onclick="resetForm()" style="display: none;">Cancelar</button>
+                    <button type="button" id="cancel-btn" class="admin-btn" onclick="resetForm()" style="display: none; background: #6c757d;">Cancelar</button>
                 </div>
             </form>
         </div>
