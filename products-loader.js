@@ -1,28 +1,51 @@
-// products-loader.js - Cargar productos dinámicamente en todas las páginas
+// products-loader.js - Cargar productos desde JSON o localStorage
 class ProductsLoader {
     constructor() {
         this.products = [];
         this.init();
     }
     
-    init() {
-        this.loadProducts();
+    async init() {
+        await this.loadProducts();
         this.setupEventListeners();
     }
     
-    loadProducts() {
+    async loadProducts() {
+        // Primero intentar cargar desde localStorage (para mantener cambios del admin)
         const savedProducts = localStorage.getItem('tejidosDelightProducts');
         
         if (savedProducts) {
             this.products = JSON.parse(savedProducts);
             this.updatePageContent();
         } else {
-            // Cargar productos predeterminados si no hay ninguno guardado
-            this.loadDefaultProducts();
+            // Si no hay en localStorage, cargar desde el archivo JSON
+            await this.loadFromJSON();
         }
     }
     
-    loadDefaultProducts() {
+    async loadFromJSON() {
+        try {
+            const response = await fetch('products.json');
+            if (response.ok) {
+                const data = await response.json();
+                this.products = data.products;
+                
+                // Guardar en localStorage para futuras visitas
+                localStorage.setItem('tejidosDelightProducts', JSON.stringify(this.products));
+                
+                this.updatePageContent();
+            } else {
+                throw new Error('No se pudo cargar products.json');
+            }
+        } catch (error) {
+            console.error('Error cargando products.json:', error);
+            // Cargar productos de respaldo mínimos
+            await this.loadBackupProducts();
+        }
+    }
+    
+    async loadBackupProducts() {
+        // Productos mínimos de respaldo
         this.products = [
             {
                 id: '1',
@@ -68,26 +91,15 @@ class ProductsLoader {
     }
     
     updatePageContent() {
-        // Actualizar página de inicio
-        this.updateHomePage();
-        
         // Actualizar páginas de categoría
         this.updateCategoryPages();
     }
     
-    updateHomePage() {
-        if (!document.querySelector('.categories-grid')) return;
-        
-        // Aquí puedes actualizar la página de inicio si es necesario
-        console.log('Página de inicio detectada');
-    }
-    
     updateCategoryPages() {
-        // En products-loader.js - en updateCategoryPages()
         const categoryMap = {
             'amigurumis': 'amigurumis',
-            'flores': 'flores', 
-            'llaveros': 'llaveros',
+            'flores': 'flores',
+            'llaveros': 'llaveros', 
             'pulseras': 'pulseras',
             'colgantes': 'colgantes',
             'combos': 'combos',
@@ -118,25 +130,40 @@ class ProductsLoader {
             return;
         }
         
-        productGrid.innerHTML = products.map(product => `
-            <div class="product-card" data-category="${product.type === 'standard' ? 'estandar' : 'personalizados'}">
-                <img src="${product.image}" alt="${product.name}" onerror="this.src='imagenes/personalizado.jpg'">
-                <h3>${product.name}</h3>
-                <p class="precio">${product.price}</p>
-                <div class="product-actions">
-                    <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
-                    <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
-                    <button class="product-action-btn view-btn product-link" 
-                       data-name="${product.name}" 
-                       data-price="${product.price}" 
-                       data-img="${product.image}" 
-                       data-type="${product.type}"
-                       data-size-config='${JSON.stringify(product.sizeConfig)}'
-                       data-packaging-config='${JSON.stringify(product.packagingConfig)}'
-                       title="Ver detalles">👁</button>
+        productGrid.innerHTML = products.map(product => {
+            // Asegurar que las configuraciones tengan valores por defecto
+            const sizeConfig = product.sizeConfig || {
+                type: 'customizable',
+                defaultValue: '10cm',
+                options: ['10cm', '15cm', '20cm', 'Personalizado']
+            };
+            
+            const packagingConfig = product.packagingConfig || {
+                type: 'customizable', 
+                defaultValue: 'Caja con visor',
+                options: ['Caja con visor', 'Bolsa de papel', 'Funda transparente']
+            };
+            
+            return `
+                <div class="product-card" data-category="${product.type === 'standard' ? 'estandar' : 'personalizados'}">
+                    <img src="${product.image}" alt="${product.name}" onerror="this.src='imagenes/personalizado.jpg'">
+                    <h3>${product.name}</h3>
+                    <p class="precio">${product.price}</p>
+                    <div class="product-actions">
+                        <button class="product-action-btn favorite-btn" title="Agregar a favoritos">❤</button>
+                        <button class="product-action-btn add-to-cart-btn" title="Agregar al carrito">🛒</button>
+                        <button class="product-action-btn view-btn product-link" 
+                        data-name="${product.name}" 
+                        data-price="${product.price}" 
+                        data-img="${product.image}" 
+                        data-type="${product.type}"
+                        data-size-config='${JSON.stringify(sizeConfig).replace(/'/g, "&apos;")}'
+                        data-packaging-config='${JSON.stringify(packagingConfig).replace(/'/g, "&apos;")}'
+                        title="Ver detalles">👁</button>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
         
         // Reconfigurar event listeners
         this.setupProductInteractions();
@@ -193,7 +220,7 @@ class ProductsLoader {
             }
         });
         
-        // Escuchar mensajes de actualización
+        // Escuchar mensajes de actualización desde el admin panel
         window.addEventListener('message', (e) => {
             if (e.data && e.data.type === 'PRODUCTS_UPDATED') {
                 this.products = e.data.products;
@@ -201,7 +228,7 @@ class ProductsLoader {
             }
         });
         
-        // Recargar cuando la página gane foco
+        // Recargar cuando la página gane foco (para sincronizar cambios del admin)
         window.addEventListener('focus', () => {
             this.loadProducts();
         });

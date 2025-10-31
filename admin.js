@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadProducts();
     setupEventListeners();
     updateCategoryFilter();
+    initializeProducts();
 });
 
 // Configurar event listeners
@@ -41,6 +42,35 @@ function setupEventListeners() {
     });
 }
 
+// Inicializar productos si no existen
+function initializeProducts() {
+    const savedProducts = localStorage.getItem('tejidosDelightProducts');
+    
+    if (!savedProducts || JSON.parse(savedProducts).length === 0) {
+        // Si no hay productos, cargar desde el JSON
+        loadProductsFromJSON();
+    }
+}
+
+// Cargar productos desde JSON
+async function loadProductsFromJSON() {
+    try {
+        const response = await fetch('products.json');
+        if (response.ok) {
+            const data = await response.json();
+            products = data.products;
+            saveProducts();
+            displayProducts();
+            updateCategoryFilter();
+            showAlert('Productos cargados desde archivo JSON.', 'success');
+        }
+    } catch (error) {
+        console.error('Error cargando products.json:', error);
+        // Cargar productos mínimos de respaldo
+        loadDefaultProducts();
+    }
+}
+
 // Alternar opciones de tamaño
 function toggleSizeOptions() {
     const customizableOptions = document.getElementById('customizable-size-options');
@@ -67,9 +97,6 @@ function loadProducts() {
     
     if (savedProducts) {
         products = JSON.parse(savedProducts);
-    } else {
-        // Si no hay productos guardados, cargar los predeterminados
-        loadDefaultProducts();
     }
     
     displayProducts();
@@ -92,7 +119,6 @@ function updateCategoryFilter() {
 }
 
 // Cargar productos predeterminados
-// En admin.js - función loadDefaultProducts()
 function loadDefaultProducts() {
     products = [
         {
@@ -168,7 +194,6 @@ function loadDefaultProducts() {
                 options: ['Papel de regalo', 'Caja premium', 'Bolsa de tela']
             }
         },
-        // Agregar productos para otras categorías
         {
             id: '5',
             name: 'Llavero Básico',
@@ -240,10 +265,86 @@ function loadDefaultProducts() {
                 defaultValue: 'Bolsa de organza',
                 options: ['Bolsa de organza', 'Cajita', 'Display']
             }
+        },
+        {
+            id: '9',
+            name: 'Bolsa Básica',
+            category: 'bolsas',
+            price: '$8.00',
+            type: 'standard',
+            image: 'imagenes/bolsa-basica.jpg',
+            order: 1,
+            sizeConfig: {
+                type: 'fixed',
+                value: '10cm'
+            },
+            packagingConfig: {
+                type: 'customizable',
+                defaultValue: 'Caja con visor',
+                options: ['Caja con visor', 'Bolsa de papel', 'Funda transparente']
+            }
+        },
+        {
+            id: '10',
+            name: 'Bolsa Personalizada',
+            category: 'bolsas',
+            price: 'A cotizar',
+            type: 'custom',
+            image: 'imagenes/personalizado.jpg',
+            order: 2,
+            sizeConfig: {
+                type: 'customizable',
+                defaultValue: '15cm',
+                options: ['10cm', '15cm', '20cm', '25cm']
+            },
+            packagingConfig: {
+                type: 'customizable',
+                defaultValue: 'Caja con visor',
+                options: ['Caja con visor', 'Bolsa de papel', 'Funda transparente']
+            }
+        },
+        {
+            id: '11',
+            name: 'Maceta Simple',
+            category: 'macetas',
+            price: '$6.00',
+            type: 'standard',
+            image: 'imagenes/maceta-simple.jpg',
+            order: 1,
+            sizeConfig: {
+                type: 'fixed',
+                value: '10cm'
+            },
+            packagingConfig: {
+                type: 'customizable',
+                defaultValue: 'Caja con visor',
+                options: ['Caja con visor', 'Bolsa de papel', 'Funda transparente']
+            }
+        },
+        {
+            id: '12',
+            name: 'Maceta Personalizada',
+            category: 'macetas',
+            price: 'A cotizar',
+            type: 'custom',
+            image: 'imagenes/personalizado.jpg',
+            order: 2,
+            sizeConfig: {
+                type: 'customizable',
+                defaultValue: '15cm',
+                options: ['10cm', '15cm', '20cm', '25cm']
+            },
+            packagingConfig: {
+                type: 'customizable',
+                defaultValue: 'Caja con visor',
+                options: ['Caja con visor', 'Bolsa de papel', 'Funda transparente']
+            }
         }
     ];
     
     saveProducts();
+    displayProducts();
+    updateCategoryFilter();
 }
 
 // Guardar productos en localStorage
@@ -257,6 +358,9 @@ function saveProducts() {
     
     // También guardar en sessionStorage para sincronización inmediata
     sessionStorage.setItem('productsUpdated', Date.now().toString());
+    
+    // Mostrar instrucciones para actualizar el archivo JSON
+    showAlert('Productos guardados en localStorage. Para que los cambios se vean en GitHub Pages, exporta el JSON y reemplaza el archivo products.json.', 'success');
 }
 
 // Mostrar productos en la interfaz
@@ -300,19 +404,27 @@ function displayProducts(filteredProducts = null) {
 
 // Obtener display de tamaño
 function getSizeDisplay(sizeConfig) {
+    if (!sizeConfig) return 'No configurado';
+    
     if (sizeConfig.type === 'fixed') {
-        return `Fijo: ${sizeConfig.value}`;
+        return `Fijo: ${sizeConfig.value || 'No especificado'}`;
     } else {
-        return `Personalizable: ${sizeConfig.defaultValue} (${sizeConfig.options.join(', ')})`;
+        const options = sizeConfig.options ? sizeConfig.options.join(', ') : 'No especificadas';
+        const defaultValue = sizeConfig.defaultValue || 'No especificado';
+        return `Personalizable: ${defaultValue} (${options})`;
     }
 }
 
 // Obtener display de empaque
 function getPackagingDisplay(packagingConfig) {
+    if (!packagingConfig) return 'No configurado';
+    
     if (packagingConfig.type === 'fixed') {
-        return `Fijo: ${packagingConfig.value}`;
+        return `Fijo: ${packagingConfig.value || 'No especificado'}`;
     } else {
-        return `Personalizable: ${packagingConfig.defaultValue} (${packagingConfig.options.join(', ')})`;
+        const options = packagingConfig.options ? packagingConfig.options.join(', ') : 'No especificadas';
+        const defaultValue = packagingConfig.defaultValue || 'No especificado';
+        return `Personalizable: ${defaultValue} (${options})`;
     }
 }
 
@@ -477,13 +589,14 @@ function saveProduct(event) {
     if (sizeType === 'fixed') {
         sizeConfig = {
             type: 'fixed',
-            value: document.getElementById('fixed-size').value
+            value: document.getElementById('fixed-size').value || '10cm'
         };
     } else {
+        const sizeOptions = document.getElementById('size-options').value.split(',').map(opt => opt.trim()).filter(opt => opt !== '');
         sizeConfig = {
             type: 'customizable',
-            defaultValue: document.getElementById('default-size').value,
-            options: document.getElementById('size-options').value.split(',').map(opt => opt.trim())
+            defaultValue: document.getElementById('default-size').value || '10cm',
+            options: sizeOptions.length > 0 ? sizeOptions : ['10cm', '15cm', '20cm']
         };
     }
     
@@ -494,13 +607,14 @@ function saveProduct(event) {
     if (packagingType === 'fixed') {
         packagingConfig = {
             type: 'fixed',
-            value: document.getElementById('fixed-packaging').value
+            value: document.getElementById('fixed-packaging').value || 'Caja con visor'
         };
     } else {
+        const packagingOptions = document.getElementById('packaging-options').value.split(',').map(opt => opt.trim()).filter(opt => opt !== '');
         packagingConfig = {
             type: 'customizable',
-            defaultValue: document.getElementById('default-packaging').value,
-            options: document.getElementById('packaging-options').value.split(',').map(opt => opt.trim())
+            defaultValue: document.getElementById('default-packaging').value || 'Caja con visor',
+            options: packagingOptions.length > 0 ? packagingOptions : ['Caja con visor', 'Bolsa de papel', 'Funda transparente']
         };
     }
     
@@ -508,6 +622,25 @@ function saveProduct(event) {
     if (!name || !category || !price || !type) {
         showAlert('Por favor completa todos los campos obligatorios.', 'error');
         return;
+    }
+    
+    // Asegurar que las configuraciones tengan valores por defecto
+    if (sizeConfig.type === 'customizable') {
+        if (!sizeConfig.options || sizeConfig.options.length === 0) {
+            sizeConfig.options = ['10cm', '15cm', '20cm'];
+        }
+        if (!sizeConfig.defaultValue) {
+            sizeConfig.defaultValue = sizeConfig.options[0];
+        }
+    }
+
+    if (packagingConfig.type === 'customizable') {
+        if (!packagingConfig.options || packagingConfig.options.length === 0) {
+            packagingConfig.options = ['Caja con visor', 'Bolsa de papel', 'Funda transparente'];
+        }
+        if (!packagingConfig.defaultValue) {
+            packagingConfig.defaultValue = packagingConfig.options[0];
+        }
     }
     
     // Si estamos editando
@@ -576,24 +709,24 @@ function editProduct(id) {
         document.getElementById('product-description').value = product.description || '';
         
         // Configurar tamaño
-        if (product.sizeConfig.type === 'fixed') {
+        if (product.sizeConfig && product.sizeConfig.type === 'fixed') {
             document.querySelector('input[name="size-type"][value="fixed"]').checked = true;
-            document.getElementById('fixed-size').value = product.sizeConfig.value;
+            document.getElementById('fixed-size').value = product.sizeConfig.value || '10cm';
         } else {
             document.querySelector('input[name="size-type"][value="customizable"]').checked = true;
-            document.getElementById('default-size').value = product.sizeConfig.defaultValue;
-            document.getElementById('size-options').value = product.sizeConfig.options.join(', ');
+            document.getElementById('default-size').value = product.sizeConfig?.defaultValue || '10cm';
+            document.getElementById('size-options').value = product.sizeConfig?.options ? product.sizeConfig.options.join(', ') : '10cm,15cm,20cm';
         }
         toggleSizeOptions.call(document.querySelector('input[name="size-type"]:checked'));
         
         // Configurar empaque
-        if (product.packagingConfig.type === 'fixed') {
+        if (product.packagingConfig && product.packagingConfig.type === 'fixed') {
             document.querySelector('input[name="packaging-type"][value="fixed"]').checked = true;
-            document.getElementById('fixed-packaging').value = product.packagingConfig.value;
+            document.getElementById('fixed-packaging').value = product.packagingConfig.value || 'Caja con visor';
         } else {
             document.querySelector('input[name="packaging-type"][value="customizable"]').checked = true;
-            document.getElementById('default-packaging').value = product.packagingConfig.defaultValue;
-            document.getElementById('packaging-options').value = product.packagingConfig.options.join(', ');
+            document.getElementById('default-packaging').value = product.packagingConfig?.defaultValue || 'Caja con visor';
+            document.getElementById('packaging-options').value = product.packagingConfig?.options ? product.packagingConfig.options.join(', ') : 'Caja con visor,Bolsa de papel,Funda transparente';
         }
         togglePackagingOptions.call(document.querySelector('input[name="packaging-type"]:checked'));
         
@@ -659,7 +792,7 @@ function showAlert(message, type) {
 
 // Exportar productos a JSON
 function exportProducts() {
-    const dataStr = JSON.stringify(products, null, 2);
+    const dataStr = JSON.stringify({ products: products }, null, 2);
     const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
     
     const exportFileDefaultName = 'tejidos-delight-productos.json';
@@ -669,7 +802,7 @@ function exportProducts() {
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
     
-    showAlert('Productos exportados correctamente.', 'success');
+    showAlert('Productos exportados correctamente. Reemplaza el contenido de products.json con este archivo para actualizar GitHub Pages.', 'success');
 }
 
 // Importar productos desde JSON
@@ -686,7 +819,8 @@ function importProducts() {
     
     reader.onload = function(e) {
         try {
-            const importedProducts = JSON.parse(e.target.result);
+            const importedData = JSON.parse(e.target.result);
+            const importedProducts = importedData.products || importedData;
             
             if (Array.isArray(importedProducts)) {
                 if (confirm('¿Estás seguro de que quieres importar estos productos? Se reemplazarán todos los productos actuales.')) {
