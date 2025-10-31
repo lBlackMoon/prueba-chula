@@ -92,6 +92,7 @@ function updateCategoryFilter() {
 }
 
 // Cargar productos predeterminados
+// En admin.js - función loadDefaultProducts()
 function loadDefaultProducts() {
     products = [
         {
@@ -165,6 +166,79 @@ function loadDefaultProducts() {
                 type: 'customizable',
                 defaultValue: 'Papel de regalo',
                 options: ['Papel de regalo', 'Caja premium', 'Bolsa de tela']
+            }
+        },
+        // Agregar productos para otras categorías
+        {
+            id: '5',
+            name: 'Llavero Básico',
+            category: 'llaveros',
+            price: '$3.00',
+            type: 'standard',
+            image: 'imagenes/llavero-basico.jpg',
+            order: 1,
+            sizeConfig: {
+                type: 'fixed',
+                value: '5cm'
+            },
+            packagingConfig: {
+                type: 'fixed',
+                value: 'Bolsa pequeña'
+            }
+        },
+        {
+            id: '6',
+            name: 'Llavero Personalizado',
+            category: 'llaveros',
+            price: 'A cotizar',
+            type: 'custom',
+            image: 'imagenes/personalizado.jpg',
+            order: 2,
+            sizeConfig: {
+                type: 'customizable',
+                defaultValue: '6cm',
+                options: ['5cm', '6cm', '7cm', '8cm']
+            },
+            packagingConfig: {
+                type: 'customizable',
+                defaultValue: 'Bolsa pequeña',
+                options: ['Bolsa pequeña', 'Cajita', 'Sobre']
+            }
+        },
+        {
+            id: '7',
+            name: 'Pulsera Básica',
+            category: 'pulseras',
+            price: '$4.00',
+            type: 'standard',
+            image: 'imagenes/pulsera-basica.jpg',
+            order: 1,
+            sizeConfig: {
+                type: 'fixed',
+                value: 'Ajustable'
+            },
+            packagingConfig: {
+                type: 'fixed',
+                value: 'Bolsa de organza'
+            }
+        },
+        {
+            id: '8',
+            name: 'Pulsera Personalizada',
+            category: 'pulseras',
+            price: 'A cotizar',
+            type: 'custom',
+            image: 'imagenes/personalizado.jpg',
+            order: 2,
+            sizeConfig: {
+                type: 'customizable',
+                defaultValue: '17cm',
+                options: ['15cm', '17cm', '19cm', '21cm']
+            },
+            packagingConfig: {
+                type: 'customizable',
+                defaultValue: 'Bolsa de organza',
+                options: ['Bolsa de organza', 'Cajita', 'Display']
             }
         }
     ];

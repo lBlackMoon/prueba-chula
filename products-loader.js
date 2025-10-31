@@ -83,10 +83,11 @@ class ProductsLoader {
     }
     
     updateCategoryPages() {
+        // En products-loader.js - en updateCategoryPages()
         const categoryMap = {
             'amigurumis': 'amigurumis',
-            'flores': 'flores',
-            'llaveros': 'llaveros', 
+            'flores': 'flores', 
+            'llaveros': 'llaveros',
             'pulseras': 'pulseras',
             'colgantes': 'colgantes',
             'combos': 'combos',
